@@ -50,7 +50,8 @@ common_packages =
 	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mediainfo-gui", "usbutils", false, "rsync", "lshw-gtk"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
-	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wpagui"}},
+	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wpagui", "wicd", "wicd-gtk", "wicd-daemon", false, "wpagui"}},
+	{ bluetooth = {true, "bluedevil", "blueman", "bluetooth", "bluez", false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
 }
 
 office_packages =
@@ -115,7 +116,7 @@ multimedia_packages =
 }
 
 tools_packages =
-{	{ online = {"wget", "lftp", "curl", "ethtool", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy"}},
+{	{ online = {"wget", "lftp", "curl", "ethtool", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", "mtr", false, "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ servers = {"nginx-light", "nginx-doc", "tftpd-hpa", "openssh-server", "sshfs", "x11vnc"}},
 	{ offline = {"rdfind", "dmidecode"}},		-- binutils provides 'strings'
