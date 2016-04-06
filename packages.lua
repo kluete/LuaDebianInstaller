@@ -27,18 +27,11 @@ pkg_to_add_groups =
 
 wheezy_packages =
 {	
-	-- { ["Xfce core"] = {true, "xserver-xorg", "xfce4-session", "xfce4-panel", "xfce4-utils", "xfce4-terminal", "xfdesktop4", "xfwm4", "thunar"}},
 	{ ["Xfce core"] = {true, "xserver-xorg", "xfce4-session", "xfce4-panel", "xfce4-terminal", "xfdesktop4", "xfwm4", "thunar"}},
 	{ auth = {true, "gvfs", "gksu", "xdg-utils", "gvfs-bin", "libpam-ck-connector", "policykit-1", "gvfs-daemons", "thunar-volman", "slim"}},
 	{ ["UI libs"] = {true, "librsvg2-common", "gtk2-engines-xfce", "gtk2-engines-pixbuf", "libgtk2.0-bin", "libxfce4util-bin"}},
 	{ compression = {true, "binutils", "sysv-rc-conf", "thunar-archive-plugin", "xarchiver", "bzip2", "zip", "unzip", "p7zip-full"}}
 }
-
---[[
-	not on Jessie
-	
-		xfce4-utils
-]]
 
 common_packages =
 {	{ icons = {true, "tango-icon-theme", "hicolor-icon-theme", "xfwm4-themes"}},
@@ -91,8 +84,7 @@ qemu_packages =
 }
 
 mount_packages =
-{	-- exfat-utils? umounts?
-	{ gparted = {"gparted", "cryptsetup-bin", "cryptmount", "ntfs-3g", "jfsutils", "ntfsprogs", "dosfstools", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "hdparm", "blktool", "exfat-utils"}},
+{	{ gparted = {"gparted", "cryptsetup-bin", "cryptmount", "ntfs-3g", "jfsutils", "ntfsprogs", "dosfstools", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "hdparm", "blktool", "exfat-utils"}},
 	{ ["CD burning"] = {"xfburn", "cdparanoia"}},
 	{ iPad = {"gtkpod", "libimobiledevice-utils"}},
 }
@@ -121,5 +113,3 @@ tools_packages =
 	{ servers = {"nginx-light", "nginx-doc", "tftpd-hpa", "openssh-server", "sshfs", "x11vnc"}},
 	{ offline = {"rdfind", "dmidecode"}},		-- binutils provides 'strings'
 }
-
-
