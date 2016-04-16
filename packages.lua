@@ -43,7 +43,7 @@ common_packages =
 	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mediainfo-gui", "usbutils", "xfce4-screenshooter", false, "rsync", "lshw-gtk"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
-	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wicd", "wicd-gtk", "wicd-daemon", "rfkill", false, "wpagui", "firmware-linux-nonfree"}},
+	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wicd", "wicd-gtk", "wicd-daemon", "rfkill", false, "wpagui", "firmware-iwlwifi"}},	-- firmware fpx xps13 wifi (non-free)
 	{ bluetooth = {true, "bluedevil", "blueman", "bluetooth", "bluez", false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
 }
 
