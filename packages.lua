@@ -40,7 +40,7 @@ common_packages =
 	{ ["X11 fonts"] = {false, "xfonts-100dpi", "xfonts-75dpi", "xfonts-utils", "xfonts-encodings"}},
 	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin"}},
 	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", "debfoster", "deborphan", "most", "apt-file", false, "debtree", "ufw", "ntp"}},
-	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mediainfo-gui", "usbutils", "xfce4-screenshooter", false, "rsync", "lshw-gtk"}},
+	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "mediainfo-gui", "usbutils", "xfce4-screenshooter", false, "rsync", "lshw-gtk"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
 	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wicd", "wicd-gtk", "wicd-daemon", "rfkill", false, "wpagui", "firmware-iwlwifi"}},	-- firmware fpx xps13 wifi (non-free)
