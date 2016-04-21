@@ -39,7 +39,7 @@ common_packages =
 	{ ["crap fonts"] = {false, "gsfonts"}},
 	{ ["X11 fonts"] = {false, "xfonts-100dpi", "xfonts-75dpi", "xfonts-utils", "xfonts-encodings"}},
 	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin"}},
-	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", "debfoster", "deborphan", "most", "apt-file", false, "debtree", "ufw", "ntp"}},
+	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", false, "debfoster", "deborphan", "most", "apt-file", "debtree", "ufw", "ntp"}},
 	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "mediainfo-gui", "usbutils", "xfce4-screenshooter", false, "rsync", "lshw-gtk"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
@@ -51,7 +51,7 @@ office_packages =
 	{ aspell = {"aspell", "aspell-en", "aspell-fr", "aspell-es", "aspell-de", "aspell-pt-br"}},
 	{ office = {"abook", "abiword", "gnumeric", "zim"}},
 	{ graphics = {"gimp", "inkscape", "dia"}},
-	{ PDF = {"epdfview", "poppler-utils", "autocutsel", "pdfgrep", "mupdf", "mupdf-tools", "pdfshuffler"}},
+	{ PDF = {"mupdf", "mupdf-tools", false, "epdfview", "poppler-utils", "autocutsel", "pdfgrep", "pdfshuffler"}},		-- should add new Jessie pdf desktop app (with printing)
 	{ CHM = {"xchm"}},
 }
 
@@ -72,7 +72,6 @@ programming_packages =
 	{ ["man and doc"] = {"libstdc++6-4.7-doc", "cppman", false, "manpages-dev"}},
 	{ ["sqlite"] = {"sqlite3", "libsqlite3-dev", "sqlite3-doc"}},
 	{ ["Valgrind"] = {"valgrind"}},
-	
 	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
 	{ ["jess libs"] = {"libgtk2.0-dev", "libnotify-dev"}},
@@ -112,5 +111,5 @@ tools_packages =
 {	{ online = {"wget", "lftp", "curl", "ethtool", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", "mtr", false, "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ servers = {"nginx-light", "nginx-doc", "tftpd-hpa", "openssh-server", "sshfs", "x11vnc"}},
-	{ offline = {"rdfind", "dmidecode"}},		-- binutils provides 'strings'
+	{ offline = {"rdfind", "dmidecode"}},		-- dedup, binutils provides 'strings'
 }
