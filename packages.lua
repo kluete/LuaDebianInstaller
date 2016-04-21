@@ -89,7 +89,7 @@ mount_packages =
 }
 
 printing_packages =
-{	{ ["CUPS printing"] = {"cupsd", "ghostscript", "xfprint4", "hplip", "a2ps", "sam2p", "libjpeg-progs"}},
+{	{ ["CUPS printing"] = {"cups", "ghostscript", false, "hplip", "a2ps", "sam2p", "libjpeg-progs"}},		-- no longer in Jessie: xfprint4
 	{ ["SANE scanner"] = {"xsane"}},
 }
 
