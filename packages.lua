@@ -44,7 +44,6 @@ common_packages =
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
 	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wicd", "wicd-gtk", "wicd-daemon", "rfkill", false, "wpagui", "firmware-iwlwifi"}},	-- firmware fpx xps13 wifi (non-free)
-	{ bluetooth = {true, "bluedevil", "blueman", "bluetooth", "bluez", false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
 }
 
 office_packages =
@@ -58,7 +57,7 @@ office_packages =
 
 programming_packages =
 {	{ ["headers"] = {"linux-headers-$(uname -r)", "build-essential", "gdb", "cmake"}},
-	{ ["utils"] = {"git", "git-gui", "gitk", "tig", "subversion", "graphviz", "graphviz-doc", "bash-doc", "xterm"}},	-- xterm for codelite
+	{ ["utils"] = {"git", "git-gui", "gitk", "subversion", "graphviz", "graphviz-doc", "bash-doc", "xterm"}},	-- xterm for codelite
 	{ ["dev libraries"] = {"libgtk2.0-dev", "libjpeg-dev", "libnotify-dev", "cscope", "exuberant-ctags", "libcrypto++-dev"}},
 	{ ["multilib"] = {"gcc-multilib", "g++-multilib", "libc++-dev:i386", "libc++-dev:i386", "libc++1:i386", "libgcc1:i386", "libstdc++6:i386", "libc++-helpers:i386"}},
 	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "mesa-utils", "libglu1-mesa-dev",
@@ -104,6 +103,7 @@ multimedia_packages =
 	{ LIRC = {"lirc", "lirc-x", "evtest", "setserial", "ir-keytable"}},
 	{ DVB = {"dvb-apps", false, "me-tv", "w-scan"}},
 	{ dvd = {"dvdbackup", "gopchop"}},
+	{ bluetooth = {true, "bluedevil", "blueman", "bluetooth", "bluez", false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
 	{ jack = {"qjackctl", "libjack-jackd2-dev", "jack-tools", false, "jackeq", "qtractor"}},
 	{ iphone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", false, "gtkpod"}},
 }
