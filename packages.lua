@@ -70,7 +70,7 @@ programming_packages =
 	{ ["man and doc"] = {"cppman", false, "manpages-dev"}},
 	{ ["sqlite"] = {"sqlite3", "libsqlite3-dev", "sqlite3-doc"}},
 	{ ["Valgrind"] = {"valgrind"}},
-	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5"}},
+	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
 }
 

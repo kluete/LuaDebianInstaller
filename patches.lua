@@ -120,6 +120,16 @@ fi
 	}
 },
 
+{ title = "get Perforce client",
+	{	op = "exec",
+		path = "/usr/local",
+		args =
+		{
+			"wget ftp.perforce.com/perforce/r14.3/bin.linux26x86_64/p4v.tgz",
+		},
+	}
+},
+
 { title = "SLiM: auto-login",
 	{	op = "gsublines",
 		path = "/etc/slim.conf",
