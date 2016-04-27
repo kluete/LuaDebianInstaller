@@ -12,7 +12,7 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 	
 	printf("ParsePatch(%S)", title)
 	
-	local op_LUT = {addlines = Debian.AppendLines, gsublines = Debian.GsubLines}
+	local op_LUT = {addlines = Debian.AppendLines, gsublines = Debian.GsubLines, exec = Debian.Exec}
 	local readable_f = true
 	
 	for k, entry in ipairs(patch) do
@@ -93,7 +93,7 @@ function ApplyPatch(patch)
 	local title = patch.title
 	assertf(type(title) == "string", "illegal patch title")
 	
-	local op_LUT = {addlines = Debian.AppendLines, gsublines = Debian.GsubLines}
+	local op_LUT = {addlines = Debian.AppendLines, gsublines = Debian.GsubLines, exec = Debian.Exec}
 	
 	for k, entry in ipairs(patch) do
 	
@@ -105,7 +105,7 @@ function ApplyPatch(patch)
 		assertf(type(args) == "table", "illegal patch args type")
 		
 		local op_fn = op_LUT[op]
-		assertf(type(op_fn) == "function", "illegal patch op name")
+		assertf(type(op_fn) == "function", "illegal patch op type is not a function")
 		
 		local src_path = entry.src_path
 		assertf(type(src_path) == 'string', 'illegal src_path type')

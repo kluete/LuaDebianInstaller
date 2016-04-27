@@ -406,6 +406,13 @@ function Debian.GsubLines(fn, gsub_list, dest_fn)
 	end
 end
 
+---- Exec ----------------------------------------------------------------------
+
+function Debian.Exec(fn, cmd_list, dest_fn)
+
+	Log.f("Debian.Exec()")
+end
+
 ---- PACKAGES ------------------------------------------------------------------
 
 local distro_packages = wheezy_packages
