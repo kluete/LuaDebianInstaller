@@ -107,6 +107,19 @@ fi
 	},
 },
 
+
+{ title = "link clang binaries",
+	{	op = "exec",
+		path = "/usr/bin",
+		args =
+		{
+			"ln -s /usr/bin/clang-3.5 /usr/bin/clang",
+			"ln -s /usr/bin/clang++-3.5 /usr/bin/clang++",
+			"ln -s /usr/bin/lldb-3.5 /usr/bin/lldb"
+		},
+	}
+},
+
 { title = "SLiM: auto-login",
 	{	op = "gsublines",
 		path = "/etc/slim.conf",
