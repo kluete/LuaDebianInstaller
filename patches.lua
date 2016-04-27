@@ -61,13 +61,23 @@ patches_def = {
 	{	op = "addlines",
 		path = "$LSK/.profile",
 		nmatch = 'export MANPAGER',
-		args =
-		{	'PATH="/sbin:$PATH"',
-			'',
-			'# color man', 'export MANPAGER=/usr/bin/most',
-			'',
-			'# screensaver', 'xset -dpms', 'xset s noblank', 'xset s off',
-			'',
+		args = {[[
+PATH="/sbin:$PATH"
+
+# color man
+export MANPAGER=/usr/bin/most
+
+# screensaver
+xset -dpms
+xset s noblank
+xset s off
+
+if [ "$DISPLAY" != "" ]; then
+  setxkbmap -option -model microsoft4000 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win
+  xset -display :0 r rate 660 75
+fi
+
+]]
 		},
 	},
 },
