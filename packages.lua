@@ -51,7 +51,7 @@ office_packages =
 	{ aspell = {"aspell", "aspell-en", "aspell-fr", "aspell-es", "aspell-de", "aspell-pt-br"}},
 	{ office = {"abook", "abiword", "gnumeric", "zim"}},
 	{ graphics = {"gimp", "inkscape", "dia"}},
-	{ PDF = {"mupdf", "mupdf-tools", false, "epdfview", "poppler-utils", "autocutsel", "pdfgrep", "pdfshuffler"}},		-- should add new Jessie pdf desktop app (with printing)
+	{ PDF = {"mupdf", "mupdf-tools", "evince", false, "autocutsel", "pdfgrep", "pdfshuffler"}},		-- should add new Jessie pdf desktop app (with printing)
 	{ CHM = {"xchm"}},
 }
 
