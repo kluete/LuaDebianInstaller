@@ -2,7 +2,7 @@
 
 --[[
 	apt-get install lua5.1 dialog
-	lua -l debinstall -e 'main()'
+	./debinstall.lua
 	
 	TO DO:
 	
@@ -17,13 +17,7 @@
 
 local SIMUL_PREFIX = "$P4_WORKSPACE/DebLua/LuaDebian_installer/simul"
 
-local
-p4_workspace = os.getenv("P4_WORKSPACE")
-if (p4_workspace) then
-	package.path = package.path .. ";" .. p4_workspace .. "/DebLua/?.lua"
-end
-
-package.path = "?.lua;../?.lua"
+package.path = package.path .. ";../?.lua;../DebLua/?.lua"
 
 require "lua_shell"
 
@@ -374,6 +368,8 @@ end
 
 function Debian.GsubLines(fn, gsub_list, dest_fn)
 
+	Log.f("Debian.GsubLines(file %S)", fn)
+	
 	-- FUCKED, operates on WHOLE STRING instead of LINES (FIXME)
 	-- ^$ anchors only apply to start/end of WHOLE STRING
 	printf("Debian.GsubLines(%S, %S)", tostring(fn), tostring(dest_fn))
@@ -390,7 +386,7 @@ function Debian.GsubLines(fn, gsub_list, dest_fn)
 	local nsubs
 	
 	for _, gsub_def in ipairs(gsub_list) do
-		assertf(type(gsub_def) == "table", "illegal gsub_def type")
+		assertf(type(gsub_def) == "table", "illegal gsub_def %S (expected table)", tostring(gsub_def))
 		assertf((#gsub_def >= 2), "illegal gsub_def sz")
 		
 		local src, dst = gsub_def[1], gsub_def[2]
@@ -521,7 +517,7 @@ function ValidatePackages(pack_list, group_list)
 		assert(res)
 		
 		if ("unavailable" == res) then
-			printf("UNAVAILABLE package %S", pkg)
+			Log.f("errorL UNAVAILABLE package %S", pkg)
 			return nil		-- error
 		elseif ("installed" == res) then
 			-- printf("skipping installed package %S", pkg)
@@ -568,7 +564,8 @@ function PromptInstallPackages()
 
 	local filtered_t = ValidatePackages(pack_t, togroups)
 	if (not filtered_t) then
-		printf("warning - some packages missing, canceled")
+		Log.f("warning: some packages missing, canceling")
+	
 		return
 	else
 		-- install
@@ -808,13 +805,12 @@ print("na ja")
 
 function main()
 
+	Log.Init("installer.log")
+	Log.SetTimestamp("%H:%M:%S > ")
+	
 	if (not Debian.simulate_str) then
 		Debian:Init()
 	end
-	
-	-- xfce4config(xfce4_def)
-	-- local s = Util.LoadFile("~/torrent_test.torrent")
-	-- local fn = load(func_s)
 	
 	local simul_prefix = nil
 	
@@ -823,8 +819,6 @@ function main()
 	end
 	
 	Patches.ParseAll(simul_prefix)
-	
-	-- do return end
 	
 	Debian.Install("dialog", "force")
 	
@@ -845,6 +839,6 @@ function main()
 	-- shell.clear()
 end
 
--- main()
+main()
 
 
