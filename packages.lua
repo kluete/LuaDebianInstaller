@@ -107,5 +107,5 @@ tools_packages =
 {	{ online = {"wget", "lftp", "curl", "ethtool", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", "mtr", false, "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ servers = {"openssh-server", "x11vnc"}},
-	{ offline = {"rdfind", "dmidecode"}},		-- dedup, binutils provides 'strings'
+	{ offline = {"rdfind", "dmidecode", "gdmap"}},		-- dedup, binutils provides 'strings'
 }
