@@ -39,8 +39,9 @@ common_packages =
 	{ ["crap fonts"] = {false, "gsfonts"}},
 	{ ["X11 fonts"] = {false, "xfonts-100dpi", "xfonts-75dpi", "xfonts-utils", "xfonts-encodings"}},
 	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin"}},
-	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", false, "debfoster", "deborphan", "most", "apt-file", "debtree", "ufw", "ntp"}},
-	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "mediainfo-gui", "usbutils", "xfce4-screenshooter", false, "rsync", "lshw-gtk"}},
+	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", "most", "ufw", false, "debfoster", "deborphan", "apt-file", "debtree", "ntp"}},
+	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "mediainfo-gui", "usbutils", "xfce4-screenshooter", "lshw-gtk", false, "rsync"}},
+	{ audio = {true, "alsa-utils", "alsa-base"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
 	{ wifi = {false, "wireless-tools", "wpasupplicant", "iw", "wicd", "wicd-gtk", "wicd-daemon", "rfkill", false, "wpagui", "firmware-iwlwifi"}},	-- firmware fpx xps13 wifi (non-free)
@@ -62,7 +63,6 @@ programming_packages =
 	{ ["multilib"] = {"gcc-multilib", "g++-multilib", "libc++-dev:i386", "libc++-dev:i386", "libc++1:i386", "libgcc1:i386", "libstdc++6:i386", "libc++-helpers:i386"}},
 	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},		-- for wxGL dev
 	{ ["OpenGL docs"] = {false, "opengl-4.2-html-doc", "opengl-4.2-man-doc"}},
-	{ ["Nvidia"] = {"libgles2-nvidia"}},
 	{ ["audio"] = {"libasound2-dev"}},
 	{ ["net libraries"] = {"libcurl4-gnutls-dev", "libpcap0.8-dev"}},
 	{ ["lua libs"] = {"lua5.1-doc", "lua-socket"}},
@@ -79,8 +79,8 @@ qemu_packages =
 }
 
 mount_packages =
-{	{ gparted = {"sshfs", "bindfs", "gparted", "cryptsetup-bin", "cryptmount", "ntfs-3g", "jfsutils", "ntfsprogs", "dosfstools", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "hdparm", "blktool", "exfat-utils"}},
-	{ ["CD burning"] = {"xfburn", "cdparanoia"}},
+{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", false, "cryptsetup-bin", "cryptmount", "jfsutils", "ntfsprogs", "dosfstools", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool", "exfat-utils"}},
+	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
 	{ iPad = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", false, "gtkpod"}},
 }
 
@@ -92,7 +92,6 @@ printing_packages =
 multimedia_packages =
 {
 	{ web = {"iceweasel"}},
-	{ audio = {"alsa-utils", "alsa-base"}},
 	{ video = {"vlc", "gtk-recordmydesktop", "youtube-dl", download = "http://download.videolan.org/pub/libdvdcss/1.2.10/deb/libdvdcss2_1.2.9-1_i386.deb"}},		-- source in 1.2.13
 	{ transcoding = {"oggconvert", "transmageddon", "libav-tools", "vpx-tools", "libavcodec-extra-53"}},
 	{ BitTorrent = {"qbittorrent"}},
@@ -104,8 +103,9 @@ multimedia_packages =
 }
 
 tools_packages =
-{	{ online = {"wget", "lftp", "curl", "ethtool", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", "mtr", false, "winbind"}},
+{	{ core = {true, "wget", "lftp", "mtr", "dmidecode", "gdmap", "ethtool"}},
+	{ online = {"curl", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", false, "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ servers = {"openssh-server", "x11vnc"}},
-	{ offline = {"rdfind", "dmidecode", "gdmap"}},		-- dedup, binutils provides 'strings'
+	{ dedup = {"rdfind"}},		-- dedup, binutils provides 'strings'
 }
