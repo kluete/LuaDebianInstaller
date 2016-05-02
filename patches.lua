@@ -130,6 +130,16 @@ fi
 	}
 },
 
+{ title = "link p4v",
+	{	op = "exec",
+		path = "/usr/local/bin",
+		args =
+		{
+			"ln -s /usr/local/lib/p4v/P4VResources P4VResources",
+		},
+	}
+},
+
 { title = "SLiM: auto-login",
 	{	op = "gsublines",
 		path = "/etc/slim.conf",
