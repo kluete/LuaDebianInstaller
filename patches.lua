@@ -162,6 +162,16 @@ fi
 	},
 },
 
+{ title = "link xfce notes",
+	{	op = "exec",
+		path = "$LSK/.local/share/notes",
+		args =
+		{
+			"ln -s /home/$LSK/Documents/notes/Notes ~/.local/share/notes/Notes",
+		},
+	}
+},
+
 { title = "X11 qemu",
 	{
 		op = "addlines",
