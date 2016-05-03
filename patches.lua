@@ -140,6 +140,17 @@ fi
 	}
 },
 
+{ title = "gen wx-config wrapper",
+	{	op = "exec",
+		path = "/usr/local/games",
+		args =
+		{
+			"echo -e '#!/bin/sh\ncfg=\"$WXDIR/wx-config\"\n$cfg $@\n' > wx-config",
+			"chmod +x wx-config"
+		},
+	}
+},
+
 { title = "SLiM: auto-login",
 	{	op = "gsublines",
 		path = "/etc/slim.conf",
