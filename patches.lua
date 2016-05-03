@@ -162,12 +162,13 @@ fi
 	},
 },
 
-{ title = "link xfce notes",
+{ title = "link Documents",
 	{	op = "exec",
 		path = "$LSK/.local/share/notes",
 		args =
 		{
-			"ln -s /home/$LSK/Documents/notes/Notes ~/.local/share/notes/Notes",
+			"ln -s /home/$LSK/Documents/notes/Notes /home/$LSK/.local/share/notes/Notes",
+			"ln -s /home/$LSK/Documents/abook /home/$LSK/.abook"
 		},
 	}
 },
