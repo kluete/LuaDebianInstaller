@@ -81,7 +81,7 @@ qemu_packages =
 mount_packages =
 {	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", false, "cryptsetup-bin", "cryptmount", "jfsutils", "ntfsprogs", "dosfstools", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool", "exfat-utils"}},
 	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
-	{ iPad = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", false, "gtkpod"}},
+	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", false, "gtkpod"}},
 }
 
 printing_packages =
