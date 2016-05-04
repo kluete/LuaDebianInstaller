@@ -67,7 +67,7 @@ PATH="/sbin:$PATH"
 # color man
 export MANPAGER=/usr/bin/most
 
-# screensaver
+# disable screensaver
 xset -dpms
 xset s noblank
 xset s off
