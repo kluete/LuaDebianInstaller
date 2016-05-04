@@ -72,6 +72,7 @@ programming_packages =
 	{ ["Valgrind"] = {"valgrind"}},
 	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
+	{ ["ios dev"] = {"libgpod-dev", "python-gpod"}},
 }
 
 qemu_packages =
@@ -81,7 +82,7 @@ qemu_packages =
 mount_packages =
 {	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", false, "cryptsetup-bin", "cryptmount", "jfsutils", "ntfsprogs", "dosfstools", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool", "exfat-utils"}},
 	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
-	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", false, "gtkpod"}},
+	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", "libusbmuxd-tools", false, "gtkpod"}},
 }
 
 printing_packages =
@@ -103,7 +104,7 @@ multimedia_packages =
 }
 
 tools_packages =
-{	{ core = {true, "wget", "lftp", "mtr", "dmidecode", "gdmap", "ethtool"}},
+{	{ core = {true, "wget", "lftp", "mtr", "ethtool", "dmidecode", "gdmap", "apt-file"}},
 	{ online = {"curl", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", false, "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ servers = {"openssh-server", "x11vnc"}},
