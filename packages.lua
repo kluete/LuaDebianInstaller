@@ -68,11 +68,11 @@ programming_packages =
 	{ ["lua libs"] = {"lua5.1-doc", "lua-socket", "lua-posix", "libid3-tools"}},
 	{ ["builders"] = {"autoconf", "automake", "libtool", "autogen"}},
 	{ ["man and doc"] = {"cppman", false, "manpages-dev"}},
-	{ ["sqlite"] = {"sqlite3", "libsqlite3-dev", "sqlite3-doc"}},
+	{ ["sqlite"] = {"sqlite3", "libsqlite3-dev", false, "sqlite3-doc", "sqlitebrowser"}},
 	{ ["Valgrind"] = {"valgrind"}},
 	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
-	{ ["ios dev"] = {"libgpod-dev", "python-gpod"}},
+	{ ["ios dev"] = {"libgpod-dev", "python-gpod", "libplist-utils"}},
 }
 
 qemu_packages =
