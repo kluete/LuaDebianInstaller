@@ -7,15 +7,6 @@ if (not Debian) then
 end
 ]]
 
---[[ TO DO
-#wire terminal keys
-xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/F1 -s 'xfce4-terminal'
-xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/<Shift>F1 -n /commands/custom/<Shift>F1 -t string -s "xfce4-terminal -e 'sudo -i'"
-
-remove deb-src entries
-
-]]
-
 patches_def = {
 
 { title = "APT: no recommends and suggests",
@@ -107,7 +98,7 @@ fi
 	},
 },
 
-
+-- sudo update-alternatives --config clang
 { title = "link clang binaries",
 	{	op = "exec",
 		path = "/usr/bin",
