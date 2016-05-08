@@ -44,16 +44,16 @@ function Debian:Init()
 	local archLUT = {i686 = 32, x86_64 = 64, armv61 = 61}
 	self.Architecture = archLUT[pshell.arch()]
 	assertf(self.Architecture, "unknown Debian architecture!")
-	printf("architecture is %d-bits", self.Architecture)
+	Log.f("architecture is %d-bits", self.Architecture)
 	
 	-- get user home dir by cutting 6th field of admin database
 	self.HOME = pshell.getent("passwd", 1000, "| cut -d ':' -f6")
-	printf("user HOME is %S", self.HOME)
+	Log.f("user HOME is %S", self.HOME)
 	
 	-- get user name
 	-- OR use 'id -u' / 'id -nu'
 	self.USER = pshell.getent("passwd", 1000, "| cut -d ':' -f1")
-	printf("user NAME is %S", self.USER)
+	Log.f("user NAME is %S", self.USER)
 	
 	self.RootFlag = ("root" == os.getenv("USER"))
 	if (self.RootFlag) then
@@ -76,7 +76,7 @@ end
 function Debian.ToggleSimulation()
 
 	if (not Debian.RootFlag) then
-		printf("forced SIMUL as non-root!")
+		Log.f("forced SIMUL as non-root!")
 		return
 	end
 
@@ -228,7 +228,7 @@ end
 
 function Debian.AptKey(key_url)
 	
-	printf("apt-key adv --fetch-keys %S", tostring(key_url))
+	Log.f("apt-key adv --fetch-keys %S", tostring(key_url))
 	
 	assertf(type(key_url) == "string", "illegal Debian.AptKey() URL")
 	
@@ -268,12 +268,12 @@ end
 
 function Debian.AddToGroup(group)
 
-	printf("Debian.AddToGroup(%S)", tostring(group))
+	Log.f("Debian.AddToGroup(%S)", tostring(group))
 	
 	-- assertf(type(group) == "string", "Debian.AddToGroup() illegal group")
 	
 	if (Debian.simulate) then
-		printf("  SIMUL")
+		Log.f("  SIMUL")
 		return
 	end
 	
@@ -299,7 +299,7 @@ function Debian.EditFile(fn, write_f, title)
 		return false
 	end
 	
-	printf("EditFile() returned %d lines", #res_t)
+	Log.f("EditFile() returned %d lines", #res_t)
 	
 	if (write_f) then
 		local s = table.concat(res_t, "\n")
@@ -317,7 +317,7 @@ function Debian.EditTextString(s, title)
 	assert(s ~= "")
 	
 	local tmp_fn = os.tmpname()
-	printf("tmp_fn = %S", tmp_fn)
+	Log.f("tmp_fn = %S", tmp_fn)
 	
 	-- write string to temp file
 	local f = io.open(tmp_fn, "w")
@@ -410,7 +410,7 @@ end
 
 function Debian.Exec(fn, cmd_list, dest_fn)
 
-	Log.f("Debian.Exec()")
+	Log.f("Debian.Exec() *** UNINPLEMENTED ***")
 end
 
 ---- PACKAGES ------------------------------------------------------------------
@@ -532,7 +532,7 @@ function ValidatePackages(pack_list, group_list)
 			table.insert(filtered_tab, pkg)
 		end
 		
-		printf("%d: %S, status: %s", k, pkg, tostring(res))
+		Log.f("%d: %S, status: %s", k, pkg, tostring(res))
 	end
 	
 	return filtered_tab
@@ -562,7 +562,7 @@ function PromptInstallPackages()
 -- confirm packages
 	res_s = shell.dialog("--yesno", '"confirm:\n\n' .. table.concat(pack_t, '\n') .. '"', 0, 0)
 	if (not res_s) then
-		print("install not confirmed")
+		Log.f("install not confirmed")
 		return
 	end
 
@@ -703,7 +703,7 @@ function xfce4config(def_list)
 			return "nopause"
 		end
 		
-		printf("selected xfce4 pref %S", res_s)
+		Log.f("selected xfce4 pref %S", res_s)
 		
 		-- lookup menu function
 		local cmd_list = entryLUT[res_s]
@@ -714,9 +714,9 @@ function xfce4config(def_list)
 			-- query current value
 			local cur_v = pshell["xfconf-query"]("-c", cmd.chan, "-p", cmd.prop_quoted, "2>/dev/null")
 			if (cur_v == cmd.val) then
-				printf("  chan %S: prop %S, cur & new: %s (NO CHANGE)", cmd.chan, cmd.prop, tostring(cur_v))
+				Log.f("  chan %S: prop %S, cur & new: %s (NO CHANGE)", cmd.chan, cmd.prop, tostring(cur_v))
 			else
-				printf("  chan %S: prop %S, val: %s -> %s", cmd.chan, cmd.prop, tostring(cur_v), tostring(cmd.val))
+				Log.f("  chan %S: prop %S, val: %s -> %s", cmd.chan, cmd.prop, tostring(cur_v), tostring(cmd.val))
 				
 				DumpTable('cmd', cmd)
 				
@@ -724,7 +724,7 @@ function xfce4config(def_list)
 				assert(v_s)
 				
 				local s = table.concat({"xfconf-query", "-c", cmd.chan, "-p", cmd.prop_quoted, "-n", v_s}, " ")
-				printf("  cmd:\n%s\n", s)
+				Log.f("  cmd:\n%s\n", s)
 				
 				pshell["xfconf-query"]("-c", cmd.chan, "-p", cmd.prop_quoted, "-n", v_s)
 				
@@ -782,11 +782,11 @@ function PromptMainMenu()
 	--[[	dialog --stdout --menu "mytitle" 0 0 0 "item1" "" "item2" ""	]]
 	local res_s = pshell.dialog("--stdout --cancel-label 'Exit' --menu", menu_title, 0, menu_w, 0, table.concat(main_menu_entries, " "))
 	if (not res_s) then
-		print("exited installer")
+		Log.f("exited installer")
 		return "exit"
 	end
 	
-	printf("selected menu entry %S", res_s)
+	Log.f("selected menu entry %S", res_s)
 	
 	-- lookup menu function
 	local fn = entryLUT[res_s].fn
@@ -800,13 +800,6 @@ function PromptMainMenu()
 	-- call function
 	return fn(fn_arg)
 end
-
-local func_s = [[
-print("hello, world")
-
-print("na ja")
-
-]]
 
 ---- Main ----------------------------------------------------------------------
 
