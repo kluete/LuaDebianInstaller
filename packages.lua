@@ -60,19 +60,20 @@ programming_packages =
 {	{ ["headers"] = {"linux-headers-$(uname -r)", "build-essential", "gdb", "cmake"}},
 	{ ["utils"] = {"git", "git-gui", "gitk", "subversion", "graphviz", "graphviz-doc", "bash-doc", "xterm"}},	-- xterm for codelite
 	{ ["dev libraries"] = {"libgtk2.0-dev", "libjpeg-dev", "libnotify-dev", "cscope", "exuberant-ctags", "libcrypto++-dev"}},
+	{ ["builders"] = {"autoconf", "automake", "libtool", "autogen"}},
 	{ ["multilib"] = {"gcc-multilib", "g++-multilib", "libc++-dev:i386", "libc++-dev:i386", "libc++1:i386", "libgcc1:i386", "libstdc++6:i386", "libc++-helpers:i386"}},
-	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "apt-get install libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},		-- for wxGL dev
-	{ ["OpenGL docs"] = {false, "opengl-4.2-html-doc", "opengl-4.2-man-doc"}},
-	{ ["audio"] = {"libasound2-dev", "libsndfile-dev"}},
 	{ ["net libraries"] = {"libcurl4-gnutls-dev", "libpcap0.8-dev"}},
 	{ ["lua libs"] = {"libreadline-dev", "lua-socket", "lua-posix", "libid3-tools", false, "lua5.1-doc"}},
-	{ ["builders"] = {"autoconf", "automake", "libtool", "autogen"}},
 	{ ["man and doc"] = {"cppman", false, "manpages-dev"}},
 	{ ["sqlite"] = {"sqlite3", "libsqlite3-dev", false, "sqlite3-doc", "sqlitebrowser"}},
 	{ ["Valgrind"] = {"valgrind"}},
+	{ ["audio"] = {"libasound2-dev", "libsndfile1-dev"}},
+	--[[
+	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "apt-get install libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},		-- for wxGL dev
 	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
 	{ ["ios dev"] = {"libgpod-dev", "python-gpod", "libplist-utils"}},
+	]]
 }
 
 qemu_packages =
