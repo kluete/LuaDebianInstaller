@@ -71,6 +71,7 @@ programming_packages =
 	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},	-- for wxGL dev
 	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
+	{ ["Vulkan"] = {"libvulkan-dev", "libvulkan1", "vulkan-utils"}},
 }
 
 qemu_packages =
