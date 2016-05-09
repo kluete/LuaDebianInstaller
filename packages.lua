@@ -68,12 +68,9 @@ programming_packages =
 	{ ["sqlite"] = {"sqlite3", "libsqlite3-dev", false, "sqlite3-doc", "sqlitebrowser"}},
 	{ ["Valgrind"] = {"valgrind"}},
 	{ ["audio"] = {"libasound2-dev", "libsndfile1-dev"}},
-	--[[
-	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "apt-get install libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},		-- for wxGL dev
-	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "lldb-3.5-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
+	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},	-- for wxGL dev
+	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
-	{ ["ios dev"] = {"libgpod-dev", "python-gpod", "libplist-utils"}},
-	]]
 }
 
 qemu_packages =
