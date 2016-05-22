@@ -411,7 +411,18 @@ end
 
 function Debian.Exec(fn, cmd_list, dest_fn)
 
-	Log.f("Debian.Exec() *** UNINPLEMENTED ***")
+	Log.f("Debian.Exec(fn = %S, cmd_list = %S, dest_fn = %S)", tostring(fn), tostring(cmd_list), tostring(destfn))
+	assertf(type(cmd_list) == "table", "cmd_list is not table (is %s)", type(cmd_list))
+	assert(type(fn) == "string")
+	
+	table.insert(cmd_list, 1, sprintf("cd '%s'", fn))
+	
+	local all_cmds = table.concat(cmd_list, " && ")
+	Log.f("all_cmds = %S", all_cmds)
+	
+	os.execute(all_cmds)
+	
+	Log.f("Debian.Exec() done")
 end
 
 ---- PACKAGES ------------------------------------------------------------------
@@ -839,10 +850,9 @@ function main()
 		end
 	end
 	
-	shell.clear()
+	-- shell.clear()
 	
 	pshell.chown("1000:1000", pwd .. "/installer.log")
-	-- pshell.touch(pwd .. "/installer.log")
 end
 
 main()
