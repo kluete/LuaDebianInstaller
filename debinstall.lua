@@ -339,6 +339,7 @@ function Debian.AppendLines(fn, lines_t, dest_fn)
 
 	printf("Debian.AppendLines(%S, %S)", tostring(fn), tostring(dest_fn))
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
+	-- assertf(type(nmatch) == "string", "illegal nmatch string in Debian.AppendLines()")
 	assertf(type(dest_fn) == "string", "illegal dest path in Debian.AppendLines()")
 	assertf(type(lines_t) == "table", "illegal lines_t in Debian.AppendLines()")
 	

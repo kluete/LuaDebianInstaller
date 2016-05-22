@@ -15,10 +15,13 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 	local op_LUT =
 	{
 		addlines = {	fn = Debian.AppendLines,
+				args = {"path", "nmatch", "args"}
 				},
 		gsublines = {	fn = Debian.GsubLines,
+				args = {"path", "args"}
 				},
 		exec = {	fn = Debian.Exec,
+				args = {"path", "args"}
 				},
 	}
 		
@@ -35,9 +38,11 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 		assertf(#args > 0, "patch has zero args")
 		
 		local op_e = op_LUT[op]
-		assertf(type(op_e) == "table", "illegal patch op name")
+		assertf(type(op_e) == "table", "illegal patch op entry (should be table)")
 		local op_fn = op_e.fn
-		assertf(type(op_fn) == "function", "illegal patch op name")
+		assertf(type(op_fn) == "function", "illegal patch entry op fn")
+		local op_args = op_e.args
+		assertf(type(op_args) == "table", "illegal patch op args")
 		
 		local src_path
 		
