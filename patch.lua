@@ -29,13 +29,7 @@ function ParsePatch(patch)
 		assertf(type(entry) == "table", "illegal patch entry type")
 		local op = entry.op
 		assertf(type(op) == "string", "illegal patch op type")
-		
 		Log.f("  patch.entry = %S", op)  
-		
-		assertf(type(entry.path) == "string", "illegal patch path")
-		local args = entry.args
-		assertf(type(args) == "table", "illegal patch args type")
-		assertf(#args > 0, "patch has zero args")
 		
 		local op_e = op_LUT[op]
 		assertf(type(op_e) == "table", "illegal patch op entry (should be table)")
@@ -44,11 +38,17 @@ function ParsePatch(patch)
 		local op_args = op_e.args
 		assertf(type(op_args) == "table", "illegal patch op args")
 		
+		assertf(type(entry.path) == "string", "illegal patch path")
+		local args = entry.args
+		assertf(type(args) == "table", "illegal patch args type")
+		assertf(#args > 0, "patch has zero args")
+		
 		local src_path = Util.NormalizePath(entry.path, "", {LSK = '/home/'..Debian.USER})
+		assertf(type(src_path) == 'string', 'illegal src_path type')
 		
 		-- poke back
 		entry.src_path = src_path
-		assertf(type(src_path) == 'string', 'illegal src_path type')
+		entry.arg_names = op_args
 		
 		Log.f("    src_path %S", src_path)					
 	end
@@ -93,6 +93,7 @@ function ApplyPatch(patch)
 		
 		local src_path = entry.src_path
 		assertf(type(src_path) == 'string', 'illegal src_path type')
+		
 		
 		local res = op_fn(src_path, args)
 		if (not res) then

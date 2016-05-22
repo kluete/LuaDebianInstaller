@@ -677,7 +677,7 @@ function main()
 		end
 	end
 	
-	-- shell.clear()
+	shell.clear()
 	
 	pshell.chown("1000:1000", pwd .. "/installer.log")
 end
