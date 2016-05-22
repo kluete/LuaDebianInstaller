@@ -16,6 +16,7 @@
 ]]
 
 local SIMUL_PREFIX = "$P4_WORKSPACE/DebLua/LuaDebian_installer/simul"
+local SIMUL_DEST = "simul_dest"
 
 package.path = package.path .. ";../?.lua;../DebLua/?.lua"
 
@@ -808,6 +809,8 @@ function main()
 	Log.Init("installer.log")
 	Log.SetTimestamp("%H:%M:%S > ")
 	
+	local pwd = os.getenv("PWD")
+	
 	if (not Debian.simulate_str) then
 		Debian:Init()
 	end
@@ -818,7 +821,7 @@ function main()
 		simul_prefix = Util.NormalizePath(SIMUL_PREFIX)
 	end
 	
-	Patches.ParseAll(simul_prefix)
+	local simul_dir = Patches.ParseAllPatches(simul_prefix, SIMUL_DEST)
 	
 	Debian.Install("dialog", "force")
 	
@@ -836,7 +839,10 @@ function main()
 		end
 	end
 	
-	-- shell.clear()
+	shell.clear()
+	
+	pshell.chown("1000:1000", pwd .. "/installer.log")
+	-- pshell.touch(pwd .. "/installer.log")
 end
 
 main()
