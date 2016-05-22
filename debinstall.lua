@@ -627,10 +627,6 @@ function PromptMainMenu()
 	
 	local menu_w = #menu_title + 8
 	
-	DumpTable("main_menu_entries", main_menu_entries)
-	
-	Log.f("trace ************************************")
-	
 	--[[	dialog --stdout --menu "mytitle" 0 0 0 "item1" "" "item2" ""	]]
 	local res_s = pshell.dialog("--stdout --cancel-label 'Exit' --menu", menu_title, 0, menu_w, 0, table.concat(main_menu_entries, " "))
 	if (not res_s) then
