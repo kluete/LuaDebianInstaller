@@ -12,7 +12,6 @@ patches_def = {
 { title = "APT: no recommends and suggests",
 	{	op = "addlines",
 		path = "/etc/apt/apt.conf",		-- doesn't exist on new system
-		nmatch = 'APT::Install',
 		args = 
 		{	'APT::Install-Recommends "false";',
 			'APT::Install-Suggests "false";',
@@ -51,7 +50,6 @@ patches_def = {
 { title = "user .profile BASE",
 	{	op = "addlines",
 		path = "$LSK/.profile",
-		nmatch = 'export MANPAGER',
 		args = {[[
 PATH="/sbin:$PATH"
 
@@ -67,7 +65,6 @@ if [ "$DISPLAY" != "" ]; then
   setxkbmap -option -model microsoft4000 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win
   xset -display :0 r rate 660 75
 fi
-
 ]]
 		},
 	},
@@ -76,7 +73,6 @@ fi
 { title = "user .profile DEV",
 	{	op = "addlines",
 		path = "$LSK/.profile",
-		nmatch = 'export LXDEV',
 		args =
 		{	'export LXDEV=/media/dev',
 			'export P4_WORKSPACE="$LXDEV/vlc_depot"',
@@ -94,6 +90,18 @@ fi
 		args =
 		{	{"#(force_color_prompt=yes)", "%1"},
 			{"^(.+)$", "%1\nHISTFILE=/dev/null\n"},		-- add to end (captures all then appends)
+		},
+	},
+},
+
+{ title = "user .nanorc",
+	{	op = "addlines",
+		path = "$LSK/.nanorc",
+		nmatch = "set mouse",
+		args =
+		{	[[	set mouse
+				set softwrap
+				]]
 		},
 	},
 },
