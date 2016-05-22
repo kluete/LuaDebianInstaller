@@ -12,7 +12,16 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 	
 	printf("ParsePatch(%S)", title)
 	
-	local op_LUT = {addlines = Debian.AppendLines, gsublines = Debian.GsubLines, exec = Debian.Exec}
+	local op_LUT =
+	{
+		addlines = {	fn = Debian.AppendLines,
+				},
+		gsublines = {	fn = Debian.GsubLines,
+				},
+		exec = {	fn = Debian.Exec,
+				},
+	}
+		
 	local readable_f = true
 	
 	for k, entry in ipairs(patch) do
@@ -25,7 +34,9 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 		assertf(type(args) == "table", "illegal patch args type")
 		assertf(#args > 0, "patch has zero args")
 		
-		local op_fn = op_LUT[op]
+		local op_e = op_LUT[op]
+		assertf(type(op_e) == "table", "illegal patch op name")
+		local op_fn = op_e.fn
 		assertf(type(op_fn) == "function", "illegal patch op name")
 		
 		local src_path
