@@ -64,15 +64,15 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 	patch.readable_f = readable_f
 end
 
----- Parse Patches -------------------------------------------------------------
+---- Parse All Patches ---------------------------------------------------------
 
 local
-function ParsePatches(simul_prefix)
+function ParseAllPatches(simul_prefix, simul_dest)
 
-	printf("parse patches")
+	Log.f("ParseAllPatches(simul_prefix = %S, simul_dest = %S", tostring(simul_prefix), tostring(simul_dest))
 	
 	-- simulated dest in home folder
-	local dest_simul_dir = Debian.HOME .. '/simul_dest'
+	local dest_simul_dir = Debian.HOME .. simul_dest
 	if (not Util.DirExists(dest_simul_dir)) then
 		Util.MkDir(dest_simul_dir)
 	end
@@ -81,6 +81,8 @@ function ParsePatches(simul_prefix)
 	
 		ParsePatch(patch, simul_prefix, dest_simul_dir)
 	end
+	
+	return dest_simul_dir
 end
 
 ---- Apply Patch ---------------------------------------------------------------
@@ -202,7 +204,7 @@ local Patches =
 	ApplyMenu = ApplyPatchesMenu,
 	BuildCheckList = BuildPatchesCheckList,
 	ApplyOne =  ApplyPatch,
-	ParseAll = ParsePatches,
+	ParseAllPatches = ParseAllPatches,
 
 }
 
