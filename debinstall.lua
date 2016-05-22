@@ -618,8 +618,7 @@ function PromptMainMenu()
 		table.insert(main_menu_entries, ('"%s" ""'):format(entry.title))
 		
 		entryLUT[entry.title] = entry
-		
-		-- DumpTable("entry", entry)
+
 	end
 	
 	local menu_title = sprintf("'Main %s (%s)'", tostring(Debian.AUTH), tostring(Debian.Release))
@@ -662,7 +661,7 @@ function main()
 	
 	Patches.ParseAllPatches()
 	
-	-- Debian.Install("dialog", "force")
+	Debian.Install("dialog", "force")
 	
 	-- menu loop
 	while (true) do
@@ -680,7 +679,7 @@ function main()
 	
 	-- shell.clear()
 	
-	-- pshell.chown("1000:1000", pwd .. "/installer.log")
+	pshell.chown("1000:1000", pwd .. "/installer.log")
 end
 
 main()
