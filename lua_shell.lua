@@ -595,10 +595,10 @@ function Util.FileExists(fn)
 	
 	local exists_f
 	
-	if (_VERSION == "Lua 5.2") then
-		exists_f = (shell.test("-f", fn) == true)
-	else
+	if (_VERSION == "Lua 5.1") then
 		exists_f = (shell.test("-f", fn) == 0)
+	else
+		exists_f = (shell.test("-f", fn) == true)
 	end
 	
 	return exists_f
