@@ -15,9 +15,6 @@
 	id <USERNAME>
 ]]
 
-local SIMUL_PREFIX = "$P4_WORKSPACE/DebLua/LuaDebian_installer/simul"
-local SIMUL_DEST = "simul_dest"
-
 package.path = package.path .. ";../?.lua;../DebLua/?.lua"
 
 require "lua_shell"
@@ -25,7 +22,7 @@ require "lua_shell"
 ---- Debian functions ----------------------------------------------------------
 
 -- (must be global to be seen by requires - which we no longer do!)
-Debian = {simulate = true, Release = "", Architecture = 0, HOME = "", USER = "", AUTH = ""}
+Debian = {Release = "", Architecture = 0, HOME = "", USER = "", AUTH = ""}
 
 require "packages"
 
@@ -62,42 +59,16 @@ function Debian:Init()
 	else
 		self.AUTH = "<NON-ROOT>"
 	end
-	
-	if (self.simulate or (not self.RootFlag)) then
-		self.simulate_str = "SIMUL"
-	else
-		self.simulate_str = "REAL"
-	end
 end
 	
--- Debian:Init()
-
----- Toggle Simulation ---------------------------------------------------------
-
-function Debian.ToggleSimulation()
-
-	if (not Debian.RootFlag) then
-		Log.f("forced SIMUL as non-root!")
-		return
-	end
-
-	Debian.simulate = not Debian.simulate
-	
-	if (Debian.simulate) then
-		Debian.simulate_str = "SIMUL"
-	else
-		Debian.simulate_str = "REAL"
-	end
-	
-	return "nopause"
-end
-
 local gPackStatusTab = nil
 
 ---- Refresh (avail) Packages Status Tab ---------------------------------------
 
 function Debian.RefreshPackageStatus()
 
+	Log.f("Debian.RefreshPackageStatus()")
+	
 	gPackStatusTab = {}
 	
 -- get available packages	
@@ -168,6 +139,8 @@ end
 
 function Debian.PackageStatus(pkg_name, must_exist_f)
 
+	Log.f("Debian.PackageStatus()")
+	
 	assertf(type(pkg_name) == "string", "illegal Debian.PackageStatus() pkg_name")
 	
 	local t = gPackStatusTab
@@ -196,13 +169,9 @@ end
 
 function Debian.Update()
 
-	printf("apt-get update")
+	Log.f("Debian.Update()")
 	
-	if (Debian.simulate) then
-		print("SIMUL")
-	else
-		shell["apt-get"]("update")
-	end
+	shell["apt-get"]("update")
 	
 	-- flush (will fill on next query)
 	gPackStatusTab = nil
@@ -211,15 +180,12 @@ end
 ---- apt-get install -----------------------------------------------------------
 
 function Debian.Install(args)
-	printf("apt-get install %S", tostring(args))
+
+	Log.f("Debian.Install(%S)", tostring(args))
 	
 	assertf(type(args) == "string", "Debian.Install() illegal args")
 	
-	if (Debian.simulate) then
-		print("  SIMUL")
-	else
-		shell["apt-get"]("install", args)
-	end
+	shell["apt-get"]("install", args)
 	
 	-- flush (will fill on next query)
 	gPackStatusTab = nil
@@ -233,13 +199,9 @@ function Debian.AptKey(key_url)
 	
 	assertf(type(key_url) == "string", "illegal Debian.AptKey() URL")
 	
-	if (Debian.simulate) then
-		print("  SIMUL")
-	else
-		shell["apt-key"]("adv", "--fetch-keys", key_url)
+	shell["apt-key"]("adv", "--fetch-keys", key_url)
 		
-		Debian.Update()
-	end
+	Debian.Update()
 end
 
 ---- Add APT source ------------------------------------------------------------
@@ -250,16 +212,12 @@ function Debian.AddSource(url)
 	
 	printf("Debian.AddSource(%S)", url)
 	
-	if (Debian.simulate) then
-		print("  SIMUL")
-	else
-		local f = io.open("/etc/apt/sources.list", "a+")
-		assertf(f, "couldn't append-open sources.list")
+	local f = io.open("/etc/apt/sources.list", "a+")
+	assertf(f, "couldn't append-open sources.list")
 		
-		f:write(url .. "\n")
+	f:write(url .. "\n")
 		
-		f:close()
-	end
+	f:close()
 	
 	-- flush (will fill on next query)
 	gPackStatusTab = nil
@@ -270,13 +228,6 @@ end
 function Debian.AddToGroup(group)
 
 	Log.f("Debian.AddToGroup(%S)", tostring(group))
-	
-	-- assertf(type(group) == "string", "Debian.AddToGroup() illegal group")
-	
-	if (Debian.simulate) then
-		Log.f("  SIMUL")
-		return
-	end
 	
 	if (type(group) == "string") then
 		shell.adduser(Debian.USER, group)
@@ -335,12 +286,13 @@ end
 
 ---- Append Lines --------------------------------------------------------------
 
-function Debian.AppendLines(fn, lines_t, dest_fn)
+function Debian.AppendLines(fn, lines_t)
 
-	printf("Debian.AppendLines(%S, %S)", tostring(fn), tostring(dest_fn))
+	Log.f("Debian.AppendLines(fn %S)", fn)
+	
+	printf("Debian.AppendLines(%S, %S)", tostring(fn), tostring(lines_t))
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
 	-- assertf(type(nmatch) == "string", "illegal nmatch string in Debian.AppendLines()")
-	assertf(type(dest_fn) == "string", "illegal dest path in Debian.AppendLines()")
 	assertf(type(lines_t) == "table", "illegal lines_t in Debian.AppendLines()")
 	
 	-- resolve any env vars
@@ -359,7 +311,7 @@ function Debian.AppendLines(fn, lines_t, dest_fn)
 	
 	local ok = Debian.EditTextString(f_s, '"' .. fn .. ' (preview)"')	-- ESCAPES title
 	if (ok) then
-		Util.WriteFile(dest_fn, f_s)
+		Util.WriteFile(fn, f_s)
 		return "nopause"
 	else
 		-- canceled
@@ -368,15 +320,14 @@ end
 
 ---- Gsub Lines ----------------------------------------------------------------
 
-function Debian.GsubLines(fn, gsub_list, dest_fn)
+function Debian.GsubLines(fn, gsub_list)
 
-	Log.f("Debian.GsubLines(file %S)", fn)
+	Log.f("Debian.GsubLines(fn %S)", fn)
 	
 	-- FUCKED, operates on WHOLE STRING instead of LINES (FIXME)
 	-- ^$ anchors only apply to start/end of WHOLE STRING
-	printf("Debian.GsubLines(%S, %S)", tostring(fn), tostring(dest_fn))
+	printf("Debian.GsubLines(%S, %S)", tostring(fn), type(gsub_list))
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
-	assertf(type(dest_fn) == "string", "illegal dest path in Debian.AppendLines()")
 	
 	-- error if doesn't exist
 	Util.FileExists(fn, "fail_missing")
@@ -401,7 +352,7 @@ function Debian.GsubLines(fn, gsub_list, dest_fn)
 	
 	local ok = Debian.EditTextString(f_s, '"' .. fn .. ' (preview)"')
 	if (ok) then
-		Util.WriteFile(dest_fn, f_s)
+		Util.WriteFile(fn, f_s)
 		return "nopause"
 	else
 		-- canceled
@@ -410,9 +361,10 @@ end
 
 ---- Exec ----------------------------------------------------------------------
 
-function Debian.Exec(fn, cmd_list, dest_fn)
+function Debian.Exec(fn, cmd_list)
 
-	Log.f("Debian.Exec(fn = %S, cmd_list = %S, dest_fn = %S)", tostring(fn), tostring(cmd_list), tostring(destfn))
+	Log.f("Debian.Exec(fn = %S, cmd_list = %S)", tostring(fn), tostring(cmd_list))
+	
 	assertf(type(cmd_list) == "table", "cmd_list is not table (is %s)", type(cmd_list))
 	assert(type(fn) == "string")
 	
@@ -446,6 +398,8 @@ local Patches = GetPatches()
 local
 function ClearPackagesCheckList()
 
+	Log.f("ClearPackagesCheckList()")
+	
 	ckecklist_entries = {}
 	apt_keys = {}
 	apt_sources = {}
@@ -457,6 +411,8 @@ end
 local
 function AddToCheckList(menu_name, menu_entry, dupes_t)
 
+	Log.f("AddToCheckList()")
+	
 	assert("table" == type(ckecklist_entries))
 	assert("table" == type(dupes_t))
 
@@ -508,6 +464,8 @@ end
 local
 function AddPackagesCheckList(pkgs_def)
 
+	Log.f("AddPackagesCheckList()")
+	
 	assertf(type(pkgs_def) == "table", "illegal AddPackagesCheckList() def arg")
 	
 	local dupes = GetDupePackages()
@@ -529,6 +487,8 @@ end
 local
 function ValidatePackages(pack_list, group_list)
 
+	Log.f("ValidatePackages()")
+	
 	local filtered_tab = {}
 	
 	for k, pkg in ipairs(pack_list) do
@@ -556,6 +516,8 @@ end
 local
 function PromptInstallPackages()
 
+	Log.f("PromptInstallPackages()")
+	
 -- prompt checklist
 	-- "--colors" don't work
 	local res_s = pshell.dialog("--stdout", "--checklist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
@@ -623,141 +585,16 @@ function InstallMultiPackagesCheckList(pkgs_def_list)
 	return PromptInstallPackages()
 end
 
----- Convert Xfce Val to string cmd --------------------------------------------
-
-local xftype_LUT = {	["string"] =	function(v)
-						local u_v = string.match(v, "^(%d+)u$")
-						if (u_v) then
-							return " -t uint -s "..u_v
-						else
-							return " -t string -s '"..v.."'"
-						end
-					end,
-			number =	function(v) return " -t int -s "..tostring(v) end,
-			boolean =	function(v) return " -t bool -s "..tostring(v) end,
-			["table"] =	function(tab, lut)
-						local ln = ""
-						for _, v in ipairs(tab) do
-							ln = ln .. lut[type(v)](v)
-						end
-						return ln
-					end,
-		}
-		
-local
-function ConvXfceVal(cmd)
-
-	assert(type(cmd) == "table")
-	
-	local lua_typ = type(cmd.val)
-			
-	local xf_fn = xftype_LUT[lua_typ]
-	assertf("function" == type(xf_fn), "illegal xftype_LUT for native type %S", lua_typ)
-	
-	local res_s = xf_fn(cmd.val, xftype_LUT)
-	assertf("string" == type(res_s), "illegal ConvXfceVal res for native type %S", lua_typ)
-	
-	return res_s
-end
-
----- Xfce4 Config --------------------------------------------------------------
-
-local
-function xfce4config(def_list)
-
-	assertf(type(def_list) == "table", "illegal xfce def list")
-	
-	local xfpref_menulist = {}
-	local entryLUT = {}
-	
-	for title, entries_t in pairs(def_list) do
-	
-		assertf(type(title) == "string", "illegal xfce4 title")
-		assertf(type(entries_t) == "table", "illegal xfce4 entries list for title %S", title)
-		
-		table.insert(xfpref_menulist, ('"%s" ""'):format(title))
-		
-		local cmd_list = {}
-		
-		for _, entry in ipairs(entries_t) do
-		
-			assertf(type(entry) == "table", "illegal xfce4 entry for title %S", title)
-			assertf(#entry == 3, "illegal xfce4 entry table len for title %S", title)
-		
-			local chan = entry[1]
-			assertf(type(chan) == "string", "illegal non-string xfce4 entry.chan for title %S", title)
-			local k = entry[2]
-			assertf(type(k) == "string", "illegal non-string xfce4 entry.prop for title %S", title)
-			local v = entry[3]
-			
-			local cmd = {}
-			
-			cmd.chan = chan
-			cmd.prop = k
-			cmd.prop_quoted = "'"..k.."'"
-			cmd.val = v
-			
-			table.insert(cmd_list, cmd)
-		end
-		
-		entryLUT[title] = cmd_list
-	end
-	
-	-- loop
-	while (true) do
-
-		shell.clear()
-		
-		local menu_title = sprintf("'Xfce4 prefs - %s'", Debian.simulate_str)
-		local menu_w = #menu_title + 8
-		
-		local res_s = pshell.dialog("--stdout --ok-label 'Apply' --cancel-label 'Back' --menu", menu_title, 0, menu_w, 0, table.concat(xfpref_menulist, " "))
-		if (not res_s) then
-			return "nopause"
-		end
-		
-		Log.f("selected xfce4 pref %S", res_s)
-		
-		-- lookup menu function
-		local cmd_list = entryLUT[res_s]
-		assertf("table" == type(cmd_list), "bad xfce4 menu entry")
-
-		for _, cmd in ipairs(cmd_list) do	
-		
-			-- query current value
-			local cur_v = pshell["xfconf-query"]("-c", cmd.chan, "-p", cmd.prop_quoted, "2>/dev/null")
-			if (cur_v == cmd.val) then
-				Log.f("  chan %S: prop %S, cur & new: %s (NO CHANGE)", cmd.chan, cmd.prop, tostring(cur_v))
-			else
-				Log.f("  chan %S: prop %S, val: %s -> %s", cmd.chan, cmd.prop, tostring(cur_v), tostring(cmd.val))
-				
-				DumpTable('cmd', cmd)
-				
-				local v_s = ConvXfceVal(cmd)
-				assert(v_s)
-				
-				local s = table.concat({"xfconf-query", "-c", cmd.chan, "-p", cmd.prop_quoted, "-n", v_s}, " ")
-				Log.f("  cmd:\n%s\n", s)
-				
-				pshell["xfconf-query"]("-c", cmd.chan, "-p", cmd.prop_quoted, "-n", v_s)
-				
-			end
-		end
-		
-		-- getkey("press key to reloop")
-	end
-end
-
 ---- Prompt Main Menu ----------------------------------------------------------
 
 local
 function PromptMainMenu()
 
+	Log.f("PromptMainMenu() start")
+	
 	local main_menu_def =
 	{	
-		{ title = "Toggle Simulation", fn = Debian.ToggleSimulation},
 		{ title = "Patches", fn = Patches.ApplyMenu},
-		{ title = "UI Prefs", fn = xfce4config, fn_arg = xfce4_def},
 		{ title = "Xfce", fn = InstallMultiPackagesCheckList, fn_arg = {distro_packages, common_packages}},
 		{ title = "office", fn = InstallPackagesCheckList, fn_arg = office_packages},
 		{ title = "programming", fn = InstallPackagesCheckList, fn_arg = programming_packages},
@@ -771,11 +608,6 @@ function PromptMainMenu()
 	local main_menu_entries = {}
 	local entryLUT = {}
 	
-	if (not Debian.RootFlag) then
-		-- if not root, remove simulation toggle
-		table.remove(main_menu_def, 1)
-	end
-
 	for k, entry in ipairs(main_menu_def) do
 	
 		assertf("table" == type(entry), "illegal entry")
@@ -786,11 +618,18 @@ function PromptMainMenu()
 		table.insert(main_menu_entries, ('"%s" ""'):format(entry.title))
 		
 		entryLUT[entry.title] = entry
+		
+		-- DumpTable("entry", entry)
 	end
 	
-	local menu_title = sprintf("'Main %s (%s) - %s'", tostring(Debian.AUTH), tostring(Debian.Release), tostring(Debian.simulate_str))
+	local menu_title = sprintf("'Main %s (%s)'", tostring(Debian.AUTH), tostring(Debian.Release))
+	assert(type(menu_title) == "string")
 	
 	local menu_w = #menu_title + 8
+	
+	DumpTable("main_menu_entries", main_menu_entries)
+	
+	Log.f("trace ************************************")
 	
 	--[[	dialog --stdout --menu "mytitle" 0 0 0 "item1" "" "item2" ""	]]
 	local res_s = pshell.dialog("--stdout --cancel-label 'Exit' --menu", menu_title, 0, menu_w, 0, table.concat(main_menu_entries, " "))
@@ -799,7 +638,7 @@ function PromptMainMenu()
 		return "exit"
 	end
 	
-	Log.f("selected menu entry %S", res_s)
+	Log.f("selected menu entry %S (type %s)", res_s, type(res_s))
 	
 	-- lookup menu function
 	local fn = entryLUT[res_s].fn
@@ -809,6 +648,8 @@ function PromptMainMenu()
 	local fn_arg = entryLUT[res_s].fn_arg
 
 	shell.clear()
+	
+	Log.f("PromptMainMenu() almost done")
 
 	-- call function
 	return fn(fn_arg)
@@ -823,19 +664,9 @@ function main()
 	
 	local pwd = os.getenv("PWD")
 	
-	if (not Debian.simulate_str) then
-		Debian:Init()
-	end
+	Patches.ParseAllPatches()
 	
-	local simul_prefix = nil
-	
-	if (Debian.simulate) then
-		simul_prefix = Util.NormalizePath(SIMUL_PREFIX)
-	end
-	
-	local simul_dir = Patches.ParseAllPatches(simul_prefix, SIMUL_DEST)
-	
-	Debian.Install("dialog", "force")
+	-- Debian.Install("dialog", "force")
 	
 	-- menu loop
 	while (true) do
@@ -853,7 +684,7 @@ function main()
 	
 	-- shell.clear()
 	
-	pshell.chown("1000:1000", pwd .. "/installer.log")
+	-- pshell.chown("1000:1000", pwd .. "/installer.log")
 end
 
 main()

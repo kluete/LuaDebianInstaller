@@ -1,16 +1,15 @@
 ---- Parse Patch ---------------------------------------------------------------
 
 local
-function ParsePatch(patch, simul_prefix, dest_simul_dir)
+function ParsePatch(patch)
 
+	Log.f("ParsePatch(patch = %s)", type(patch))
 	assertf(type(patch) == "table", "illegal patch type %S", type(patch))
-	
-	local rewrite_f = (Debian.simulate) and (nil ~= simul_prefix)
 	
 	local title = patch.title
 	assertf(type(title) == "string", "illegal patch title")
 	
-	printf("ParsePatch(%S)", title)
+	Log.f("  title %S)", title)
 	
 	local op_LUT =
 	{
@@ -25,13 +24,14 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 				},
 	}
 		
-	local readable_f = true
-	
 	for k, entry in ipairs(patch) do
 	
 		assertf(type(entry) == "table", "illegal patch entry type")
 		local op = entry.op
 		assertf(type(op) == "string", "illegal patch op type")
+		
+		Log.f("  patch.entry = %S", op)  
+		
 		assertf(type(entry.path) == "string", "illegal patch path")
 		local args = entry.args
 		assertf(type(args) == "table", "illegal patch args type")
@@ -44,61 +44,27 @@ function ParsePatch(patch, simul_prefix, dest_simul_dir)
 		local op_args = op_e.args
 		assertf(type(op_args) == "table", "illegal patch op args")
 		
-		local src_path
-		
-		if (rewrite_f) then
-			src_path = simul_prefix .. Util.NormalizePath(entry.path, "", {LSK = '/home/lsk'})
-			assertf(Util.FileExists(src_path), "src_path doesn't exist")
-		else
-			src_path = Util.NormalizePath(entry.path, "", {LSK = '/home/'..Debian.USER})
-		end
+		local src_path = Util.NormalizePath(entry.path, "", {LSK = '/home/'..Debian.USER})
 		
 		-- poke back
 		entry.src_path = src_path
 		assertf(type(src_path) == 'string', 'illegal src_path type')
 		
-		-- cummulate readable flag for multi-file patch
-		if ("addlines" ~= op) then
-			readable_f = readable_f and Util.StatFile(src_path, "r")
-			if (not readable_f) then
-				printf("  not readable %S", src_path)
-				break
-			end
-		end
-		
-		printf("  src_path %S", src_path)
-					
-		local dest_path
-		
-		entry.simul_dest_path = dest_simul_dir .. '/' .. entry.path:gsub('([/%.%$])', '_')
-		printf("  simul_dest_path %S", entry.simul_dest_path)
-		
-		entry.dest_path = Util.NormalizePath(entry.path, nil, {LSK = '/home/'..Debian.USER})
-		printf("  dest_path %S", entry.dest_path)
+		Log.f("    src_path %S", src_path)					
 	end
-	
-	patch.readable_f = readable_f
 end
 
 ---- Parse All Patches ---------------------------------------------------------
 
 local
-function ParseAllPatches(simul_prefix, simul_dest)
+function ParseAllPatches()
 
-	Log.f("ParseAllPatches(simul_prefix = %S, simul_dest = %S", tostring(simul_prefix), tostring(simul_dest))
-	
-	-- simulated dest in home folder
-	local dest_simul_dir = Debian.HOME .. simul_dest
-	if (not Util.DirExists(dest_simul_dir)) then
-		Util.MkDir(dest_simul_dir)
-	end
+	Log.f("ParseAllPatches()")
 	
 	for k, patch in ipairs(patches_def) do
 	
-		ParsePatch(patch, simul_prefix, dest_simul_dir)
+		ParsePatch(patch)
 	end
-	
-	return dest_simul_dir
 end
 
 ---- Apply Patch ---------------------------------------------------------------
@@ -128,16 +94,7 @@ function ApplyPatch(patch)
 		local src_path = entry.src_path
 		assertf(type(src_path) == 'string', 'illegal src_path type')
 		
-		local dest_path
-		
-		if (Debian.simulate) then
-			dest_path = entry.simul_dest_path
-		else
-			dest_path = entry.dest_path
-		end
-		assertf(type(dest_path) == 'string', 'illegal dest_path type')
-		
-		local res = op_fn(src_path, args, dest_path)
+		local res = op_fn(src_path, args)
 		if (not res) then
 			return		-- canceled
 		end
@@ -159,14 +116,10 @@ function BuildPatchesCheckList()
 		assertf("table" == type(patch), "illegal patch entry")
 		assertf("string" == type(patch.title), "illegal patch title")
 		
-		if (patch.readable_f) then
-			-- (all patches are disabled by default)
-			table.insert(patches_checklist, ('"%s" "" 0'):format(patch.title))
+		-- (all patches are disabled by default)
+		table.insert(patches_checklist, ('"%s" "" 0'):format(patch.title))
 		
-			patchesLUT[patch.title] = patch
-		else
-			printf("ignored non-readable patch %S", patch.title)
-		end
+		patchesLUT[patch.title] = patch
 	end
 	
 	return patches_checklist, patchesLUT
@@ -181,7 +134,7 @@ function ApplyPatchesMenu()
 
 	shell.clear()
 		
-	local menu_title = sprintf("'Patches - %s'", Debian.simulate_str)
+	local menu_title = sprintf("'Patches'")
 	
 	-- prompt patches checklist (could use --output-separator <char>)
 	local res_s = pshell.dialog("--stdout --ok-label 'Apply' --cancel-label 'Back' --checklist", menu_title, 0, 0, 0, table.concat(patches_checklist, " "))
@@ -210,9 +163,7 @@ function ApplyPatchesMenu()
 		end
 	end
 
-	if (not Debian.simulate) then
-		Debian.Update()
-	end
+	Debian.Update()
 end
 
 local Patches =

@@ -91,7 +91,7 @@ setmetatable(pshell, {__index =
 		-- print(("_lut %s()"):format(tostring(func)))
 		local shell_fn = func.." "
 		return	function (...)
-			-- return shell_fn..table.concat({...}," ")
+			-- print("   " .. shell_fn..table.concat({...}, " "))
 			return io.popen(shell_fn..table.concat({...}," ")):read("*l")
 		end
 	end})
