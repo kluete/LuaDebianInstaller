@@ -96,9 +96,10 @@ fi
 		path = "$LSK/.nanorc",
 		nmatch = "set mouse",
 		args =
-		{	[[	set mouse
-				set softwrap
-				]]
+		{	[[
+set mouse
+set softwrap
+]]
 		},
 	},
 },
