@@ -1,3 +1,44 @@
+-- installer patches
+
+---- Apply Patch ---------------------------------------------------------------
+
+local
+function ApplyPatch(patch)
+
+	Log.f("ApplyPatch(patch = %s)", type(patch))
+	assertf(type(patch) == "table", "illegal patch type %S", type(patch))
+	
+	local title = patch.title
+	assertf(type(title) == "string", "illegal patch title")
+	
+	Log.f(" title %S)", title)
+	
+	for k, entry in ipairs(patch) do
+	
+		assertf(type(entry) == "table", "illegal patch entry type")
+		local parsed_e = entry.parsed_e
+		assertf(type(parsed_e) == "table", "illegal patch parsed_e")
+		
+		local op_name = parsed_e.op_name
+		assertf(type(op_name) == "string", "illegal parsed patch op_name")
+		
+		Log.f("  op_name = %S)", op_name)
+
+		local func = parsed_e.func
+		assertf(type(func) == "function", "illegal parsed patch function")
+		
+		local arg_list = parsed_e.arg_list
+		assertf(type(arg_list) == 'table', 'illegal parsed patch arg_list type')
+		
+		local res = func(unpack(arg_list))
+		if (not res) then
+			return		-- canceled
+		end
+	end
+	
+	return "nopause"
+end
+
 ---- Parse Patch ---------------------------------------------------------------
 
 local
@@ -13,44 +54,58 @@ function ParsePatch(patch)
 	
 	local op_LUT =
 	{
-		addlines = {	fn = Debian.AppendLines,
-				args = {"path", "nmatch", "args"}
+		addlines = {	func = Debian.AppendLines,
+				arg_names = {"path", "args", "nmatch"}
 				},
-		gsublines = {	fn = Debian.GsubLines,
-				args = {"path", "args"}
+		gsublines = {	func = Debian.GsubLines,
+				arg_names = {"path", "args"}
 				},
-		exec = {	fn = Debian.Exec,
-				args = {"path", "args"}
+		exec = {	func = Debian.Exec,
+				arg_names = {"path", "args"}
 				},
 	}
-		
+	
+	local arg_types =
+	{
+		path = "string",
+		args = "table",
+		nmatch = "string",
+	}
+	
 	for k, entry in ipairs(patch) do
 	
 		assertf(type(entry) == "table", "illegal patch entry type")
-		local op = entry.op
-		assertf(type(op) == "string", "illegal patch op type")
-		Log.f("  patch.entry = %S", op)  
+		local op_name = entry.op
+		assertf(type(op_name) == "string", "illegal patch op type")
+		Log.f("  patch.entry = %S", op_name)  
 		
-		local op_e = op_LUT[op]
+		local op_e = op_LUT[op_name]
 		assertf(type(op_e) == "table", "illegal patch op entry (should be table)")
-		local op_fn = op_e.fn
-		assertf(type(op_fn) == "function", "illegal patch entry op fn")
-		local op_args = op_e.args
-		assertf(type(op_args) == "table", "illegal patch op args")
+		local func = op_e.func
+		assertf(type(func) == "function", "illegal patch entry op func")
 		
-		assertf(type(entry.path) == "string", "illegal patch path")
-		local args = entry.args
-		assertf(type(args) == "table", "illegal patch args type")
-		assertf(#args > 0, "patch has zero args")
+		local arg_names = op_e.arg_names
+		assertf(type(arg_names) == "table", "illegal patch op args")
 		
-		local src_path = Util.NormalizePath(entry.path, "", {LSK = '/home/'..Debian.USER})
-		assertf(type(src_path) == 'string', 'illegal src_path type')
+		local arg_list = {}
 		
-		-- poke back
-		entry.src_path = src_path
-		entry.arg_names = op_args
+		for _, arg_name in ipairs(arg_names) do
 		
-		Log.f("    src_path %S", src_path)					
+			local arg_t = arg_types[arg_name]
+			assertf(arg_t, "illegal/undeclared patch arg name %S", arg_name)
+			
+			local arg_v = entry[arg_name]
+			assertf(arg_v, "missing patch arg %S", arg_name)
+			assertf(type(arg_v) == arg_t, "illegal mismatched patch arg type %S is %s", arg_k, type(arg_v))
+			
+			if (arg_name == "path") then
+				arg_v = Util.NormalizePath(arg_v, "", {LSK = '/home/'..Debian.USER})
+			end
+				
+			table.insert(arg_list, arg_v)
+		end
+		
+		entry.parsed_e = {op_name = op_name, func = func, arg_list = arg_list}
 	end
 end
 
@@ -65,43 +120,6 @@ function ParseAllPatches()
 	
 		ParsePatch(patch)
 	end
-end
-
----- Apply Patch ---------------------------------------------------------------
-
-local
-function ApplyPatch(patch)
-
-	assertf(type(patch) == "table", "illegal patch type %S", type(patch))
-	
-	local title = patch.title
-	assertf(type(title) == "string", "illegal patch title")
-	
-	local op_LUT = {addlines = Debian.AppendLines, gsublines = Debian.GsubLines, exec = Debian.Exec}
-	
-	for k, entry in ipairs(patch) do
-	
-		assertf(type(entry) == "table", "illegal patch entry type")
-		local op = entry.op
-		assertf(type(op) == "string", "illegal patch op type")
-		assertf(type(entry.path) == "string", "illegal patch path")
-		local args = entry.args
-		assertf(type(args) == "table", "illegal patch args type")
-		
-		local op_fn = op_LUT[op]
-		assertf(type(op_fn) == "function", "illegal patch op type is not a function")
-		
-		local src_path = entry.src_path
-		assertf(type(src_path) == 'string', 'illegal src_path type')
-		
-		
-		local res = op_fn(src_path, args)
-		if (not res) then
-			return		-- canceled
-		end
-	end
-	
-	return "nopause"
 end
 
 ---- Build Patches Menu --------------------------------------------------------

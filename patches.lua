@@ -12,6 +12,7 @@ patches_def = {
 { title = "APT: no recommends and suggests",
 	{	op = "addlines",
 		path = "/etc/apt/apt.conf",		-- doesn't exist on new system
+		nmatch = 'APT::Install-Recommends',
 		args = 
 		{	'APT::Install-Recommends "false";',
 			'APT::Install-Suggests "false";',
@@ -19,18 +20,11 @@ patches_def = {
 	},
 },
 
-{ title = "APT: no sources",
-	{	op = "gsublines",
-		path = "/etc/apt/sources.list",
-		args =
-		{	{"\n(deb%-src.-)\n", "\n# %1\n"},
-		},
-	},
-},
 
 { title = "kernel: disable IPv6",
 	{	op = "addlines",
 		path = "/etc/sysctl.conf",
+		nmatch = 'net.ipv6.conf.default.disable_ipv6',
 		args =
 		{	"net.ipv6.conf.default.disable_ipv6 = 1",
 			"net.ipv6.conf.all.disable_ipv6 = 1",
@@ -43,6 +37,7 @@ patches_def = {
 { title = "root .bashrc",
 	{	op = "addlines",
 		path = "/root/.bashrc",
+		nmatch = "HISTFILE=/dev/null",
 		args = {"HISTFILE=/dev/null"},
 	},
 },
@@ -50,6 +45,7 @@ patches_def = {
 { title = "user .profile BASE",
 	{	op = "addlines",
 		path = "$LSK/.profile",
+		nmatch = "MANPAGER",
 		args = {[[
 PATH="/sbin:$PATH"
 
@@ -73,6 +69,7 @@ fi
 { title = "user .profile DEV",
 	{	op = "addlines",
 		path = "$LSK/.profile",
+		nmatch = "export LXDEV",
 		args =
 		{	'export LXDEV=/media/dev',
 			'export P4_WORKSPACE="$LXDEV/vlc_depot"',
@@ -187,6 +184,7 @@ fi
 	{
 		op = "addlines",
 		path = "/etc/X11/xorg.conf",
+		nmatch = 'Section "Screen"',
 		args =
 		{	"", [[
 Section "Monitor"
@@ -213,7 +211,6 @@ Section "Screen"
   EndSubsection
 EndSection
 ]], ""
-
 		},
 	},
 },
