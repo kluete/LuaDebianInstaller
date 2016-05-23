@@ -9,17 +9,17 @@ end
 
 patches_def = {
 
-{ title = "APT: no recommends and suggests",
+{ title = "APT: no recommends/suggests",
 	{	op = "addlines",
-		path = "/etc/apt/apt.conf",		-- doesn't exist on new system
+		path = "/etc/apt/apt.conf",				-- doesn't exist on brand new system
 		nmatch = 'APT::Install-Recommends',
-		args = 
-		{	'APT::Install-Recommends "false";',
-			'APT::Install-Suggests "false";',
+		args = {[[
+APT::Install-Recommends "false";
+APT::Install-Suggests "false";
+]]
 		},
 	},
 },
-
 
 { title = "kernel: disable IPv6",
 	{	op = "addlines",
@@ -70,13 +70,14 @@ fi
 	{	op = "addlines",
 		path = "$LSK/.profile",
 		nmatch = "export LXDEV",
-		args =
-		{	'export LXDEV=/media/dev',
-			'export P4_WORKSPACE="$LXDEV/vlc_depot"',
-			'export WXCONFIG_LUA="$P4_WORKSPACE/DebLua/wxconfig.lua"',
-			'export LXBUILD="$LXDEV/build"',
-			'export LXGIT="$LXDEV/git"',
-			'',
+		args = {[[
+export LXDEV=/media/dev
+export P4_WORKSPACE="$LXDEV/vlc_depot"
+export WXCONFIG_LUA="$P4_WORKSPACE/DebLua/wxconfig.lua"
+export LXBUILD="$LXDEV/build"
+export LXGIT="$LXDEV/git"
+
+]]
 		},
 	},
 },
@@ -95,8 +96,7 @@ fi
 	{	op = "addlines",
 		path = "$LSK/.nanorc",
 		nmatch = "set mouse",
-		args =
-		{	[[
+		args = {[[
 set mouse
 set softwrap
 ]]
@@ -163,8 +163,7 @@ set softwrap
 	{	op = "gsublines",
 		path = "/etc/slim.conf",
 		args =
-		{	-- {"#(default_user%s+)simone", "%1"..Debian.USER},
-			{"#(default_user%s+)simone", "%1".."lsk"},		-- HARDCODED USER
+		{	{"#(default_user%s+)simone", "%1".."lsk"},		-- HARDCODED USER
 			{"#(auto_login%s+)no", "%1yes"},
 		},
 	},
@@ -187,7 +186,8 @@ set softwrap
 		path = "/etc/X11/xorg.conf",
 		nmatch = 'Section "Screen"',
 		args =
-		{	"", [[
+		{[[
+
 Section "Monitor"
   Identifier  "Monitor0"
   HorizSync   20.0 - 50.0
@@ -211,7 +211,8 @@ Section "Screen"
     Modes "1440x1024"
   EndSubsection
 EndSection
-]], ""
+
+]]
 		},
 	},
 },

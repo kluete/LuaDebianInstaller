@@ -99,7 +99,9 @@ function ParsePatch(patch)
 			assertf(type(arg_v) == arg_t, "illegal mismatched patch arg type %S is %s", arg_k, type(arg_v))
 			
 			if (arg_name == "path") then
-				arg_v = Util.NormalizePath(arg_v, "", {LSK = '/home/'..Debian.USER})
+				arg_v = Util.NormalizePath(arg_v, "", {LSK = Debian.HOME})
+				
+				Log.f("  normalized path = %S", tostring(arg_v))
 			end
 				
 			table.insert(arg_list, arg_v)
@@ -114,7 +116,7 @@ end
 local
 function ParseAllPatches()
 
-	Log.f("ParseAllPatches()")
+	Log.f("ParseAllPatches(%d entries)", #patches_def)
 	
 	for k, patch in ipairs(patches_def) do
 	
@@ -182,7 +184,7 @@ function ApplyPatchesMenu()
 		end
 	end
 
-	Debian.Update()
+	-- Debian.Update()
 end
 
 local Patches =
@@ -191,7 +193,6 @@ local Patches =
 	BuildCheckList = BuildPatchesCheckList,
 	ApplyOne =  ApplyPatch,
 	ParseAllPatches = ParseAllPatches,
-
 }
 
 function GetPatches()

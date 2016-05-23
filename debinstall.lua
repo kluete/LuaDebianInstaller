@@ -10,9 +10,6 @@
 	- confirm get set, use
 	  'id -G'	# ids
 	  'id -nG'	# names
-	
-	#get real & effective user & group Ids
-	id <USERNAME>
 ]]
 
 package.path = package.path .. ";../?.lua;../DebLua/?.lua"
@@ -116,6 +113,8 @@ end
 
 function GetDupePackages()
 
+	Log.f("GetDupePackages()")
+	
 	local dupes = {}
 	
 	local t = tshell["dpkg-query"]('--show', "--showformat='${db:Status-Abbrev}\t${Package}\n'")	-- add "*" to also get 'un'
@@ -180,42 +179,9 @@ end
 function Debian.Install(args)
 
 	Log.f("Debian.Install(%S)", tostring(args))
+	assertf(type(args) == "string", "Debian.Install() illegal args type")
 	
-	assertf(type(args) == "string", "Debian.Install() illegal args")
-	
-	shell["apt-get"]("install", args)
-	
-	-- flush (will fill on next query)
-	gPackStatusTab = nil
-end
-
----- apt-key adv ---------------------------------------------------------------
-
-function Debian.AptKey(key_url)
-	
-	Log.f("apt-key adv --fetch-keys %S", tostring(key_url))
-	
-	assertf(type(key_url) == "string", "illegal Debian.AptKey() URL")
-	
-	shell["apt-key"]("adv", "--fetch-keys", key_url)
-		
-	Debian.Update()
-end
-
----- Add APT source ------------------------------------------------------------
-
-function Debian.AddSource(url)
-	
-	Log.f("Debian.AddSource(%S)", tostring(url))
-	
-	assertf(type(url) == "string", "illegal Debian.AddSource() URL")
-	
-	local f = io.open("/etc/apt/sources.list", "a+")
-	assertf(f, "couldn't append-open sources.list")
-		
-	f:write(url .. "\n")
-		
-	f:close()
+	shell["apt-get"]("install", "--no-install-recommends", "--no-install-suggests", args)
 	
 	-- flush (will fill on next query)
 	gPackStatusTab = nil
@@ -302,8 +268,8 @@ function Debian.AppendLines(fn, lines_t, nmatch)
 		-- pre-write LF if doesn't have one?
 		
 		if (f_s:match(nmatch)) then
-			Log.f("  nmatch %S found, abort AppendLines()", nmatch)
-			return							-- canceled -- should apply nmatch EARLIER and hide from menu???
+			Log.f("  found nmatch %S, aborting...", nmatch)
+			return "nopause"					-- canceled -- should apply nmatch EARLIER and hide from menu???
 		end
 	end
 	
@@ -463,7 +429,6 @@ local
 function AddPackagesCheckList(pkgs_def)
 
 	Log.f("AddPackagesCheckList()")
-	
 	assertf(type(pkgs_def) == "table", "illegal AddPackagesCheckList() def arg")
 	
 	local dupes = GetDupePackages()
@@ -495,7 +460,7 @@ function ValidatePackages(pack_list, group_list)
 		assert(res)
 		
 		if ("unavailable" == res) then
-			Log.f("errorL UNAVAILABLE package %S", pkg)
+			Log.f("error: UNAVAILABLE package %S", pkg)
 			return nil		-- error
 		elseif ("installed" == res) then
 			-- printf("skipping installed package %S", pkg)
