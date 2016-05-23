@@ -26,7 +26,7 @@ Debian = {Release = "", Architecture = 0, HOME = "", USER = "", AUTH = ""}
 
 require "packages"
 
--- Debian Init
+---- Debian Init ---------------------------------------------------------------
 
 function Debian:Init()
 
@@ -44,14 +44,13 @@ function Debian:Init()
 	assertf(self.Architecture, "unknown Debian architecture!")
 	Log.f("architecture is %d-bits", self.Architecture)
 	
+	-- get user name
+	self.USER = pshell.id("-nu", 1000)
+	Log.f("user NAME is %S", self.USER)
+	
 	-- get user home dir by cutting 6th field of admin database
 	self.HOME = pshell.getent("passwd", 1000, "| cut -d ':' -f6")
 	Log.f("user HOME is %S", self.HOME)
-	
-	-- get user name
-	-- OR use 'id -u' / 'id -nu'
-	self.USER = pshell.getent("passwd", 1000, "| cut -d ':' -f1")
-	Log.f("user NAME is %S", self.USER)
 	
 	self.RootFlag = ("root" == os.getenv("USER"))
 	if (self.RootFlag) then
@@ -139,8 +138,7 @@ end
 
 function Debian.PackageStatus(pkg_name, must_exist_f)
 
-	Log.f("Debian.PackageStatus()")
-	
+	Log.f("Debian.PackageStatus(%S)", tostring(pkg_name))
 	assertf(type(pkg_name) == "string", "illegal Debian.PackageStatus() pkg_name")
 	
 	local t = gPackStatusTab
@@ -208,9 +206,9 @@ end
 
 function Debian.AddSource(url)
 	
-	assertf(type(url) == "string", "illegal Debian.AddSource() URL")
+	Log.f("Debian.AddSource(%S)", tostring(url))
 	
-	printf("Debian.AddSource(%S)", url)
+	assertf(type(url) == "string", "illegal Debian.AddSource() URL")
 	
 	local f = io.open("/etc/apt/sources.list", "a+")
 	assertf(f, "couldn't append-open sources.list")
@@ -245,13 +243,15 @@ end
 
 function Debian.EditFile(fn, write_f, title)
 
+	Log.f("Debian.EditFile(%S)", tostring(fn))
+	
 	-- for read-only use "--textbox"
 	local res_t = tshell.dialog("--stdout", "--title", title or "", "--editbox", fn, 0, 0)
 	if ((not res_t) or (#res_t == 0)) then
 		return false
 	end
 	
-	Log.f("EditFile() returned %d lines", #res_t)
+	Log.f("EditFile(%S) returned %d lines", #res_t)
 	
 	if (write_f) then
 		local s = table.concat(res_t, "\n")
@@ -266,6 +266,8 @@ end
 
 function Debian.EditTextString(s, title)
 
+	Log.f("Debian.EditTextString(len = %d)", #s)
+	assertf(type(s) == "string", "illegal string type")
 	assert(s ~= "")
 	
 	local tmp_fn = os.tmpname()
@@ -288,12 +290,10 @@ end
 
 function Debian.AppendLines(fn, lines_t, nmatch)
 
-	Log.f("Debian.AppendLines(fn %S)", fn)
-	
-	printf("Debian.AppendLines(%S, %S)", tostring(fn), tostring(lines_t))
+	Log.f("Debian.AppendLines(fn %S)", tostring(fn))
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
-	assertf(type(nmatch) == "string", "illegal nmatch string in Debian.AppendLines()")
 	assertf(type(lines_t) == "table", "illegal lines_t in Debian.AppendLines()")
+	assertf(type(nmatch) == "string", "illegal nmatch string in Debian.AppendLines()")
 	
 	local f_s = ""
 	
@@ -324,11 +324,10 @@ end
 
 function Debian.GsubLines(fn, gsub_list)
 
-	Log.f("Debian.GsubLines(fn %S)", fn)
+	Log.f("Debian.GsubLines(fn %S)", tostring(fn))
 	
 	-- FUCKED, operates on WHOLE STRING instead of LINES (FIXME)
 	-- ^$ anchors only apply to start/end of WHOLE STRING
-	printf("Debian.GsubLines(%S, %S)", tostring(fn), type(gsub_list))
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
 	
 	-- error if doesn't exist
@@ -346,7 +345,7 @@ function Debian.GsubLines(fn, gsub_list)
 		f_s, nsubs = f_s:gsub(src, dst)
 		
 		-- do NOT log regex patterns
-		-- printf("gsub_def(org: %S, dst: %S) = %d subs", src, dst, nsubs)
+		-- Log.f("gsub_def(org: %S, dst: %S) = %d subs", src, dst, nsubs)
 	end
 	
 	local ok = Debian.EditTextString(f_s, '"' .. fn .. ' (preview)"')
@@ -410,7 +409,7 @@ end
 local
 function AddToCheckList(menu_name, menu_entry, dupes_t)
 
-	Log.f("AddToCheckList()")
+	Log.f("AddToCheckList(%S)", tostring(menu_name))
 	
 	assert("table" == type(ckecklist_entries))
 	assert("table" == type(dupes_t))
@@ -620,13 +619,11 @@ function PromptMainMenu()
 
 	end
 	
-	local menu_title = sprintf("'Main %s (%s)'", tostring(Debian.AUTH), tostring(Debian.Release))
+	local menu_title = sprintf("'Main %s'", tostring(Debian.AUTH))
 	assert(type(menu_title) == "string")
 	
-	local menu_w = #menu_title + 8
-	
 	--[[	dialog --stdout --menu "mytitle" 0 0 0 "item1" "" "item2" ""	]]
-	local res_s = pshell.dialog("--stdout --cancel-label 'Exit' --menu", menu_title, 0, menu_w, 0, table.concat(main_menu_entries, " "))
+	local res_s = pshell.dialog("--stdout --cancel-label 'Exit' --menu", menu_title, 0, 0, 0, table.concat(main_menu_entries, " "))
 	if (not res_s) then
 		Log.f("exited installer")
 		return "exit"
@@ -656,6 +653,8 @@ function main()
 	Log.Init("installer.log")
 	Log.SetTimestamp("%H:%M:%S > ")
 	
+	Debian:Init()
+	
 	local pwd = os.getenv("PWD")
 	
 	Patches.ParseAllPatches()
@@ -676,7 +675,7 @@ function main()
 		end
 	end
 	
-	shell.clear()
+	-- shell.clear()
 	
 	pshell.chown("1000:1000", pwd .. "/installer.log")
 end
