@@ -286,23 +286,25 @@ end
 
 ---- Append Lines --------------------------------------------------------------
 
-function Debian.AppendLines(fn, lines_t)
+function Debian.AppendLines(fn, lines_t, nmatch)
 
 	Log.f("Debian.AppendLines(fn %S)", fn)
 	
 	printf("Debian.AppendLines(%S, %S)", tostring(fn), tostring(lines_t))
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
-	-- assertf(type(nmatch) == "string", "illegal nmatch string in Debian.AppendLines()")
+	assertf(type(nmatch) == "string", "illegal nmatch string in Debian.AppendLines()")
 	assertf(type(lines_t) == "table", "illegal lines_t in Debian.AppendLines()")
-	
-	-- resolve any env vars
-	fn = Util.NormalizePath(fn)
 	
 	local f_s = ""
 	
 	if (Util.FileExists(fn)) then
 		f_s = Util.LoadFile(fn)
 		-- pre-write LF if doesn't have one?
+		
+		if (f_s:match(nmatch)) then
+			Log.f("  nmatch %S found, abort AppendLines()", nmatch)
+			return							-- canceled -- should apply nmatch EARLIER and hide from menu???
+		end
 	end
 	
 	local append_s = table.concat(lines_t, "\n")
@@ -331,9 +333,6 @@ function Debian.GsubLines(fn, gsub_list)
 	
 	-- error if doesn't exist
 	Util.FileExists(fn, "fail_missing")
-	
-	-- resolve any env vars
-	fn = Util.NormalizePath(fn)
 	
 	local f_s = Util.LoadFile(fn)
 	local nsubs
