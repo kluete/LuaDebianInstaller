@@ -26,10 +26,12 @@ APT::Install-Suggests "false";
 		path = "/etc/sysctl.conf",
 		nmatch = 'net.ipv6.conf.default.disable_ipv6',
 		args =
-		{	"net.ipv6.conf.default.disable_ipv6 = 1",
-			"net.ipv6.conf.all.disable_ipv6 = 1",
-		--	"net.ipv6.conf.lo.disable_ipv6 = 1",		-- was missing before
-			"net.ipv6.conf.eth0.disable_ipv6 = 1",
+		{[[
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.all.disable_ipv6 = 1
+# net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.eth0.disable_ipv6 = 1
+]]
 		},
 	},
 },
@@ -95,7 +97,7 @@ export LXGIT="$LXDEV/git"
 { title = "user .nanorc",
 	{	op = "addlines",
 		path = "$LSK/.nanorc",
-		nmatch = "set mouse",
+		nmatch = "set caca mouse",
 		args = {[[
 set mouse
 set softwrap
