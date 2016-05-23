@@ -217,7 +217,7 @@ function Debian.EditFile(fn, write_f, title)
 		return false
 	end
 	
-	Log.f("EditFile(%S) returned %d lines", #res_t)
+	Log.f("  edited %d lines", #res_t)
 	
 	if (write_f) then
 		local s = table.concat(res_t, "\n")
