@@ -484,8 +484,6 @@ function PromptInstallPackages()
 -- prompt checklist
 	-- "--colors" don't work
 	local res_s = pshell.dialog("--stdout", "--checklist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
-	-- os.exit()
-	
 	if (not res_s) then
 		return "nopause"
 	end
