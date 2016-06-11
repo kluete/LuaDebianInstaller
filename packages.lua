@@ -54,6 +54,7 @@ office_packages =
 	{ graphics = {"gimp", "inkscape", "dia"}},
 	{ PDF = {"mupdf", "mupdf-tools", "evince", false, "autocutsel", "pdfgrep", "pdfshuffler"}},		-- should add new Jessie pdf desktop app (with printing)
 	{ CHM = {"xchm"}},
+	{ ["remote desktop"] = {"remmina-plugin-vnc", false, "x11vnc"}},					-- ! deps avahi?
 }
 
 programming_packages =
@@ -79,7 +80,7 @@ qemu_packages =
 }
 
 mount_packages =
-{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", false, "cryptsetup-bin", "cryptmount", "jfsutils", "ntfsprogs", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool"}},
+{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", false, "cryptsetup-bin", "cryptmount", "jfsutils", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool"}},
 	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
 	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", "libusbmuxd-tools", "libplist-utils", false, "gtkpod"}},
 }

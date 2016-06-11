@@ -106,6 +106,18 @@ set softwrap
 	},
 },
 
+{ title = "keyboard alt/ctrl swap",
+	{	op = "addlines",
+		path = "$LSK/.profile",
+		nmatch = "setxkbmap",
+		args = {[[
+/usr/bin/setxkbmap -option -model pc103 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win
+/usr/bin/xset -display :0 r rate 660 75
+
+]]		},
+	},
+},
+
 { title = "link clang 3.5 binaries",
 	{	op = "exec",
 		path = "/usr/bin",
