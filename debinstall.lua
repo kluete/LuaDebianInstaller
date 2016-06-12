@@ -269,7 +269,7 @@ function Debian.AppendLines(fn, lines_t, nmatch)
 		
 		if (f_s:match(nmatch)) then
 			Log.f("  found nmatch %S, aborting...", nmatch)
-			return "nopause"					-- canceled -- should apply nmatch EARLIER and hide from menu???
+			return "canceled"					-- canceled -- should apply nmatch EARLIER and hide from menu???
 		end
 	end
 	
@@ -280,9 +280,9 @@ function Debian.AppendLines(fn, lines_t, nmatch)
 	local ok = Debian.EditTextString(f_s, '"' .. fn .. ' (preview)"')	-- ESCAPES title
 	if (ok) then
 		Util.WriteFile(fn, f_s)
-		return "nopause"
+		return "ok"
 	else
-		-- canceled
+		return "canceled"
 	end
 end
 
@@ -296,8 +296,10 @@ function Debian.GsubLines(fn, gsub_list)
 	-- ^$ anchors only apply to start/end of WHOLE STRING
 	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
 	
-	-- error if doesn't exist
-	Util.FileExists(fn, "fail_missing")
+	if (not Util.FileExists(fn)) then
+		Log.f(" error - file %S doesn't exist", fn)
+		return "warning"
+	end
 	
 	local f_s = Util.LoadFile(fn)
 	local nsubs
@@ -317,9 +319,9 @@ function Debian.GsubLines(fn, gsub_list)
 	local ok = Debian.EditTextString(f_s, '"' .. fn .. ' (preview)"')
 	if (ok) then
 		Util.WriteFile(fn, f_s)
-		return "nopause"
+		return "ok"
 	else
-		-- canceled
+		return "canceled"
 	end
 end
 
@@ -485,7 +487,7 @@ function PromptInstallPackages()
 	-- "--colors" don't work
 	local res_s = pshell.dialog("--stdout", "--checklist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
 	if (not res_s) then
-		return "nopause"
+		return "canceled"
 	end
 	
 -- decode checklist reply
@@ -499,7 +501,7 @@ function PromptInstallPackages()
 	res_s = shell.dialog("--yesno", '"confirm:\n\n' .. table.concat(pack_t, '\n') .. '"', 0, 0)
 	if (not res_s) then
 		Log.f("install not confirmed")
-		return
+		return "warning"
 	end
 
 -- validate packages
@@ -509,10 +511,12 @@ function PromptInstallPackages()
 	if (not filtered_t) then
 		Log.f("warning: some packages missing, canceling")
 	
-		return
+		return "warning"
 	else
 		-- install
 		Debian.Install(table.concat(filtered_t, " "))
+		
+		return "ok"
 	end
 end
 
@@ -632,9 +636,12 @@ function main()
 		local res = PromptMainMenu()
 		if ("exit" == res) then
 			break
-		elseif ("nopause" ~= res) then
-			-- pause by default
-			io.write("\nPress Return...");io.read()
+		elseif ("canceled" ~= res) then
+			io.write("\nwas canceled, press Return...");io.read()
+		elseif ("warning" ~= res) then
+			io.write("\nhad warning, press Return...");io.read()
+		else	-- ok
+			io.write("\npress Return...");io.read()
 		end
 	end
 	

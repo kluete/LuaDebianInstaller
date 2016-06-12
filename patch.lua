@@ -11,7 +11,7 @@ function ApplyPatch(patch)
 	local title = patch.title
 	assertf(type(title) == "string", "illegal patch title")
 	
-	Log.f(" title %S)", title)
+	Log.f(" title %S", title)
 	
 	for k, entry in ipairs(patch) do
 	
@@ -22,7 +22,7 @@ function ApplyPatch(patch)
 		local op_name = parsed_e.op_name
 		assertf(type(op_name) == "string", "illegal parsed patch op_name")
 		
-		Log.f("  op_name = %S)", op_name)
+		Log.f("  op_name = %S", op_name)
 
 		local func = parsed_e.func
 		assertf(type(func) == "function", "illegal parsed patch function")
@@ -32,11 +32,11 @@ function ApplyPatch(patch)
 		
 		local res = func(unpack(arg_list))
 		if (not res) then
-			return		-- canceled
+			return "canceled"
 		end
 	end
 	
-	return "nopause"
+	return "ok"
 end
 
 ---- Parse Patch ---------------------------------------------------------------
@@ -160,7 +160,7 @@ function ApplyPatchesMenu()
 	-- prompt patches checklist (could use --output-separator <char>)
 	local res_s = pshell.dialog("--stdout --ok-label 'Apply' --cancel-label 'Back' --checklist", menu_title, 0, 0, 0, table.concat(patches_checklist, " "))
 	if (not res_s) then
-		return "nopause"
+		return "canceled"
 	end
 		
 	-- decode checklist reply, separated by double-quote
@@ -179,12 +179,12 @@ function ApplyPatchesMenu()
 		
 		local res = ApplyPatch(patch)
 		if (not res) then
-			-- canceled
-			return "exit"
+			return "canceled"
 		end
 	end
 
 	-- Debian.Update()
+	return "ok"
 end
 
 local Patches =
