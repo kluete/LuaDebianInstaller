@@ -99,7 +99,8 @@ multimedia_packages =
 	{ LIRC = {"lirc", "lirc-x", "evtest", "setserial", "ir-keytable"}},
 	{ DVB = {"dvb-apps", false, "me-tv", "w-scan"}},
 	{ dvd = {"dvdbackup", "gopchop"}},
-	{ bluetooth = {true, "bluedevil", "blueman", "bluetooth", "bluez", false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
+	{ dj = {false, "mixxx", "gstreamer1.0-plugins-bad"}},
+	{ bluetooth = {false, "bluedevil", "blueman", "bluetooth", "bluez"}},		-- false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
 	{ jack = {"qjackctl", "libjack-jackd2-dev", "jack-tools", false, "jackeq", "qtractor"}},
 }
 
