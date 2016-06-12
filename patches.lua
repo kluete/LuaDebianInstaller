@@ -53,16 +53,6 @@ PATH="/sbin:$PATH"
 
 # color man
 export MANPAGER=/usr/bin/most
-
-# disable screensaver
-xset -dpms
-xset s noblank
-xset s off
-
-if [ "$DISPLAY" != "" ]; then
-  setxkbmap -option -model microsoft4000 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win
-  xset -display :0 r rate 660 75
-fi
 ]]
 		},
 	},
@@ -97,9 +87,9 @@ export LXGIT="$LXDEV/git"
 { title = "user .nanorc",
 	{	op = "addlines",
 		path = "$LSK/.nanorc",
-		nmatch = "set caca mouse",
+		nmatch = "softwrap",
 		args = {[[
-set mouse
+unset mouse
 set softwrap
 ]]
 		},
@@ -108,13 +98,28 @@ set softwrap
 
 { title = "keyboard alt/ctrl swap",
 	{	op = "addlines",
-		path = "$LSK/.profile",
+		path = "$LSK/.profile",		-- kb models: microsoft4000 dellsk8125 pc105
 		nmatch = "setxkbmap",
 		args = {[[
-/usr/bin/setxkbmap -option -model pc103 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win
-/usr/bin/xset -display :0 r rate 660 75
+# disable screensaver
+# xset -dpms
+# xset s noblank
+# xset s off
 
+if [ "$DISPLAY" != "" ]; then
+ /usr/bin/setxkbmap -option -model pc105 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win
+ /usr/bin/xset -display :0 r rate 660 75
+fi
 ]]		},
+	},
+},
+
+{ title = "c cedilla",
+	{	op = "gsublines",
+		path = "/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/immodules.cache",
+		args =
+		{	{'("cedilla"%s+"Cedilla"%s+"gtk30"%s+"/usr/share/locale"%s+"az:ca:co:fr:gv:oc:pt:sq:tr:wa)"', '%1:en"'},
+		},
 	},
 },
 
