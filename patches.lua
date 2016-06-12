@@ -116,6 +116,12 @@ fi
 
 { title = "c cedilla",
 	{	op = "gsublines",
+		path = "/usr/lib/x86_64-linux-gnu/gtk-2.0/2.10.0/immodules.cache",
+		args =
+		{	{'("cedilla"%s+"Cedilla"%s+"gtk20"%s+"/usr/share/locale"%s+"az:ca:co:fr:gv:oc:pt:sq:tr:wa)"', '%1:en"'},
+		},
+	},
+	{	op = "gsublines",
 		path = "/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/immodules.cache",
 		args =
 		{	{'("cedilla"%s+"Cedilla"%s+"gtk30"%s+"/usr/share/locale"%s+"az:ca:co:fr:gv:oc:pt:sq:tr:wa)"', '%1:en"'},
