@@ -512,12 +512,12 @@ function PromptInstallPackages()
 		Log.f("warning: some packages missing, canceling")
 	
 		return "warning"
-	else
-		-- install
-		Debian.Install(table.concat(filtered_t, " "))
-		
-		return "ok"
 	end
+	
+	-- install
+	Debian.Install(table.concat(filtered_t, " "))
+		
+	return "ok"
 end
 
 ---- Install Packages Checklist ------------------------------------------------
@@ -634,6 +634,9 @@ function main()
 		-- shell.clear()
 	
 		local res = PromptMainMenu()
+		
+		Log.f("PromptMainMenu() returned %S", tostring(res))
+		
 		if ("exit" == res) then
 			break
 		elseif ("canceled" ~= res) then
