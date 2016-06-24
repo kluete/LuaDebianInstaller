@@ -346,8 +346,6 @@ end
 
 ---- PACKAGES ------------------------------------------------------------------
 
-local distro_packages = wheezy_packages
-
 local ckecklist_entries = {}
 local apt_keys = {}
 local apt_sources = {}

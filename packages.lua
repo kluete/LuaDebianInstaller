@@ -10,22 +10,17 @@ end
 pkg_to_add_groups =
 {
 
--- add default groups NO LONGER EFFECTIVE ???
-
-	["gvfs"] = {"disk", "staff", "mail", "adm"},		-- ESPECIALLY for tempfs fstab patch!
+	-- add default groups -- NO LONGER EFFECTIVE ???
+	["gvfs"] = {"disk", "staff", "mail", "adm"},
 	["cupsd"] = "lpadmin",
 	["minicom"] = "dialout",
 	["qemu-kvm"] = "kvm",
-	["ntfs-3g"] = "fuse",						-- not installed?
-	
-	-- for serial access, possibly remotes?
-	-- dialout
 	
 	-- more?
 	-- disk lp cdrom floppy sudo audio dip video plugdev fuse kvm lpadmin
 }
 
-wheezy_packages =
+distro_packages =
 {	
 	{ ["Xfce core"] = {true, "xserver-xorg", "xfce4-session", "xfce4-panel", "xfce4-terminal", "xfdesktop4", "xfwm4", "thunar"}},
 	{ auth = {true, "gvfs", "gksu", "xdg-utils", "gvfs-bin", "libpam-ck-connector", "policykit-1", "gvfs-daemons", "thunar-volman", "slim"}},
