@@ -96,12 +96,10 @@ multimedia_packages =
 	{ video = {"vlc", "gtk-recordmydesktop", "youtube-dl", download = "http://download.videolan.org/pub/libdvdcss/1.2.10/deb/libdvdcss2_1.2.9-1_i386.deb"}},		-- source in 1.2.13
 	{ transcoding = {"oggconvert", "transmageddon", "libav-tools", "vpx-tools", "libavcodec-extra-53"}},
 	{ BitTorrent = {"qbittorrent"}},
-	{ LIRC = {"lirc", "lirc-x", "evtest", "setserial", "ir-keytable"}},
 	{ DVB = {"dvb-apps", false, "me-tv", "w-scan"}},
 	{ dvd = {"dvdbackup", "gopchop"}},
 	{ dj = {false, "mixxx", "gstreamer1.0-plugins-bad"}},
-	{ bluetooth = {false, "bluedevil", "blueman", "bluetooth", "bluez"}},		-- false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
-	{ jack = {"qjackctl", "libjack-jackd2-dev", "jack-tools", false, "jackeq", "qtractor"}},
+	{ bluetooth = {false, "blueman", false, "bluedevil", "bluetooth", "bluez"}},		-- false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
 }
 
 tools_packages =
