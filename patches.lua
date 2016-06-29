@@ -107,7 +107,7 @@ set softwrap
 # xset s off
 
 if [ "$DISPLAY" != "" ]; then
- setxkbmap -option -model pc105 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win -option lv3:ralt_switch,eurosign:5
+ setxkbmap -option -model pc105 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win -option compose:rctrl
  xset -display :0 r rate 660 75
 fi
 ]]		},
