@@ -178,7 +178,7 @@ fi
 		path = "/usr/local/games",
 		args =
 		{
-			"echo -e '#!/bin/sh\ncfg=\"$WXDIR/wx-config\"\n$cfg $@\n' > wx-config",
+			"echo -e '#!/bin/sh\ncfg=\"$WXDIR/wx-config\"\n$cfg $@\n' > wx-config",			-- if copy & paste to bash, rm escaped quotes
 			"chmod +x wx-config"
 		},
 	}
