@@ -2,25 +2,6 @@
 
 Util = {}
 
--- sprintf
-function sprintf(fmt, ...)
-	
-	if (type(fmt) ~= "string") then
-		return fmt
-	end
-	
-	-- replace %S with "%s"
-	local expanded_fmt = fmt:gsub("%%S", "\"%%s\"")
-
-	return expanded_fmt:format(...)
-end
-
--- printf
-function printf(fmt, ...)
-
-	print(sprintf(fmt, ...))
-end
-
 --[[
 
 local n_args = #arg
@@ -41,16 +22,49 @@ end
 print("\n\n\n")
 ]]
 
--- assertf	
+-- sprintf
+function sprintf(fmt, ...)
+	
+	if (type(fmt) ~= "string") then
+		return fmt
+	end
+	
+	-- replace %S with "%s"
+	local expanded_fmt = fmt:gsub("%%S", "\"%%s\"")
+
+	return expanded_fmt:format(...)
+end
+
+-- printf
+function printf(fmt, ...)
+
+	print(sprintf(fmt, ...))
+end
+
+-- assertf
 function assertf(f, fmt, ...)
 	if (f) then
+		return f
+	end
+	if (nil == fmt) then
+		fmt = "assert failure"
+	end
+	
+	-- error level 2
+	error(sprintf(fmt, ...), 2)
+end
+
+-- assert type
+function assertt(t, typ_s, fmt, ...)
+	assertf(type(typ_s) == "string", "illegal non-string type in assertt()")
+	if (type(t) == typ_s) then
 		return
 	end
 	if (nil == fmt) then
-		fmt = "<missing assertf() fmt>"
+		fmt = sprintf("assert type failure, expected %S, got %S", typ_s, type(t))
 	end
 	
-	assert(f, sprintf(fmt, ...))
+	error(sprintf(fmt, ...), 2)
 end
 
 -- errorf	
@@ -59,8 +73,26 @@ function errorf(fmt, ...)
 		fmt = "<missing errorf() fmt>"
 	end
 	
-	error(sprintf(fmt, ...))
+	error(sprintf(fmt, ...), 1)
 end
+
+--[[
+function printt(fmt, ...)
+	
+	assert(type(fmt) == "string")
+	
+	local t = {...}
+	assert(type(t) == "table")
+
+	local res_t = {}
+	
+	for _, v in ipairs(t) do
+		res_t[v] = true
+	end
+
+	return res_t
+end
+]]
 
 -- exec
 shell = {}
@@ -91,7 +123,7 @@ setmetatable(pshell, {__index =
 		-- print(("_lut %s()"):format(tostring(func)))
 		local shell_fn = func.." "
 		return	function (...)
-			-- print("   " .. shell_fn..table.concat({...}, " "))
+			-- return shell_fn..table.concat({...}," ")
 			return io.popen(shell_fn..table.concat({...}," ")):read("*l")
 		end
 	end})
@@ -218,6 +250,19 @@ function hexdump(str)
 	print(shexdump(str), "\n")
 end
 
+function hashset(t)
+	assert(t)
+	assert(type(t) == "table")
+
+	local res_t = {}
+	
+	for _, v in ipairs(t) do
+		res_t[v] = true
+	end
+
+	return res_t
+end
+
 ---- COLOR TERMINAL ------------------------------------------------------------
 
 term = {}
@@ -322,6 +367,8 @@ function MakeLog()
 		m_File:write("********************************************************************************\n")
 		m_File:write("***********                        NEW SESSION                       ***********\n")
 		m_File:write("********************************************************************************\n")
+		m_File:write(sprintf("LUA VERSION = %S\n", _VERSION))
+	
 	end
 
 	local
@@ -350,13 +397,17 @@ function MakeLog()
 	
 	-- log only to file
 	local
-	function ToFile(ln)
+	function ToFile(fmt, ...)
 		
-		if (not ln) or (not m_File) then
+		if (not fmt) or (not m_File) then
 			return
 		end
 		
-		m_File:write(GetTimestamp(), ln, "\n")
+		local ln = sprintf(fmt, ...)
+		
+		m_File:write("FONLY ", GetTimestamp(), ln, "\n")
+		
+		m_File:flush()
 	end
 	
 	local
@@ -509,14 +560,14 @@ function Util.EscapePath(fn)
 
 	assertf(type(fn) == "string", "illegal Util.EscapePath(%S)", tostring(fn))
 	
-	local res = ""
+	-- unescape to prevent double-escape
+	local unesc_fn = fn:gsub("\\(.)", "%1")
 	
-	for i = 1, #fn do
-	
-		local c = fn:sub(i, i)
-		
-		res = res .. '\\' .. c
-	end
+	-- brute force since not all chars need escaping but reliable
+	local res = unesc_fn:gsub(".",
+			function(c)
+				return '\\' .. c
+			end)
 	
 	return res
 end
@@ -593,12 +644,15 @@ function Util.FileExists(fn)
 	
 	assertf(type(fn) == "string", "Util.FileExists(%S) illegal fn", tostring(fn))
 	
+	local esc_fn = Util.EscapePath(fn)
+	
 	local exists_f
 	
-	if (_VERSION == "Lua 5.1") then
-		exists_f = (shell.test("-f", fn) == 0)
+	if (_VERSION ~= "Lua 5.1") then
+		-- lua 5.2, 5.3
+		exists_f = (shell.test("-f", esc_fn) == true)
 	else
-		exists_f = (shell.test("-f", fn) == true)
+		exists_f = (shell.test("-f", esc_fn) == 0)
 	end
 	
 	return exists_f
@@ -626,43 +680,40 @@ end
 
 ---- Make Dir ------------------------------------------------------------------
 
-function Util.MkDir(dir_name, opt)
+function Util.MkDir(dir_path, opt)
 	
-	assertf(type(dir_name) == "string", "Util.MkDir(%S) illegal dir_name", tostring(dir_name))
+	assertt(dir_path, "string", "Util.MkDir() illegal dir_path")
 	
 	if (opt == "path_only") then
-		local ind1, ind2, path_only = dir_name:find("^(.+)/")
-		assert(ind1)
+		local _, _, path_only = dir_path:find("^(.+)/")
+		assert(path_only)
 		
-		dir_name = path_only	
+		dir_path = path_only	
 	end
 	
+	local esc_dir = Util.EscapePath(dir_path)
+	
 	-- no error if already exists, make parent directories as needed
-	shell.mkdir("-p", dir_name)
-	assertf(Util.DirExists(dir_name), "Util.MkDir(%S) failed", dir_name)
+	shell.mkdir("-p", esc_dir)
+	assertf(Util.DirExists(esc_dir), "Util.MkDir(%S) failed", dir_path)
 end
 
 ---- collect filenames ---------------------------------------------------------
 
 function Util.CollectDirFilenames(path, filter)
 
-	-- if (not Util.DirExists(path)) then
-		path = Util.NormalizePath(path)
-		if (not Util.DirExists(path)) then
-			-- error
-			return
-		end
-	-- end
+	path = Util.NormalizePath(path)
+	assertf(Util.DirExists(path), "error, dir %S doesn't exist", path)
+	
+	path = Util.EscapePath(path)
 	
 	local file_t
 	
 	if (filter) then
-		file_t = tshell.find('"'..path..'"', '-iname "'..filter..'"', '-type f', '-printf "%p\\n"')
+		file_t = tshell.find(path, '-iname "'..filter..'"', '-type f', '-printf "%p\\n"')
 	else
-		file_t = tshell.find('"'..path..'"', '-type f', '-printf "%p\\n"')
+		file_t = tshell.find(path, '-type f', '-printf "%p\\n"')
 	end
-	
-	-- printf("%d files collected", #file_t)
 	
 	return file_t
 end
