@@ -211,7 +211,7 @@ fi
 		op = "addlines",
 		path = "/etc/X11/xorg.conf",
 		nmatch = 'Section "Screen"',
-		args =
+		args =								-- do NOT specify "nomodeset" on kernel boot line or will prevent display resolution changes!!!
 		{[[
 
 Section "Monitor"
