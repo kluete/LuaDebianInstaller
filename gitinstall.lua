@@ -64,7 +64,7 @@ function CheckDestDir(dir)
 	end
 	
 	Log.f(" erasing dir %S", dir)
-	pshell.rm("-rf", Util.EscapePath(dir))
+	shell.rm("-rf", Util.EscapePath(dir))
 	
 	ok = not Util.DirExists(dir)
 	Log.f(" dir %S blank = %s", dir, tostring(ok))
