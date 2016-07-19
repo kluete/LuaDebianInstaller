@@ -33,6 +33,23 @@ function Init()
 	best_sz = {w = math.floor(w * 0.75), h = math.floor(h * 0.75)}
 end
 
+---- Prompt Yes/No -------------------------------------------------------------
+
+local
+function PromptYesNo(title, msg)
+
+	assertt(title, "string")
+	assertt(msg, "string")
+	
+	local cod = pshell.dialog("--stdout", "--no-shadow", "--title '"..title.."'", "--yesno", msg, best_sz.h, best_sz.w)
+	
+	local lut = {0 = "yes", 1 = "no", 2 = "extra"}
+	local res = lut[cod]
+	assert(res)
+	
+	return res
+end
+
 ---- Select File/Directory -----------------------------------------------------
 
 local
@@ -108,6 +125,7 @@ end
 return
 {
 	Init = Init,
+	PromptYesNo = PromptYesNo,
 	SelectFile = SelectFileDir,
 	SelectDir = SelectFileDir,
 	Checklist = Checklist,

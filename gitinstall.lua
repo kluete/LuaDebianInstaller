@@ -42,6 +42,31 @@ local s_ext_repos =
 	soundtouch = "http://svn.code.sf.net/p/soundtouch/code/trunk",
 }
 
+---- Check Dest Dir ------------------------------------------------------------
+
+local
+function CheckDestDir(dir)
+
+	assertt(dir, "string")
+	
+	if (not Util.DirExists(dir)) then
+		return true
+	end
+	
+	local res = dialog.PromptYesNo(sprintf("%s already exists", dir), "erase?")
+	if (res ~= "yes") then
+		return false
+	end
+	
+	Log.f(" erasing dir %S", dir)
+	pshell.rmdir("-rf", Util.EscapePath(dir))
+	
+	ok = not Util.DirExists(dir)
+	Log.f(" dir %S blank = %d", dir, ok)
+	
+	return ok
+end
+
 ---- main ----------------------------------------------------------------------
 
 function main()
@@ -53,6 +78,9 @@ function main()
 	local lxgit_default = "/media/vm/test"
 	local lxgit = dialog.SelectDir("select lxgit", lxgit_default)
 	assertt(lxgit, "string")
+	if (not Util.DirExists(lxgit)) then
+		Util.MkDir(lxgit)
+	end
 	
 	local checklist = {}
 	
@@ -76,13 +104,18 @@ function main()
 		assertt(branch, "string")
 		
 		local url = github_prefix .. repo_name
-		local repo_local_dir = lxgit .. "/" .. repo_name
+		local dest_dir = lxgit .. "/" .. repo_name
 		
-		Log.f("cloning %S to %S", url, repo_local_dir)
-		pshell.git("clone", url, repo_local_dir)
+		if (not CheckDestDir(dest_dir)) then
+			Log.f(" aborted on dir %S", dest_dir)
+			return
+		end
+		
+		Log.f("cloning %S to %S", url, dest_dir)
+		pshell.git("clone", url, dest_dir)
 		
 		if (branch ~= "") then
-			pshell.git("-C", repo_local_dir, "checkout", branch)
+			pshell.git("-C", dest_dir, "checkout", branch)
 		end
 	end
 	
@@ -120,10 +153,15 @@ function main()
 			assertf(false, "couldn't determine SCC from url %S", url)
 		end
 		
-		local repo_local_dir = lxgit .. "/" .. repo_name
+		local dest_dir = lxgit .. "/" .. repo_name
 		
-		Log.f("cloning scc %S from %S to %S", scc, url, repo_local_dir)
-		pshell[scc](scc_arg, url, repo_local_dir)
+		if (not CheckDestDir(dest_dir)) then
+			Log.f(" aborted on dir %S", dest_dir)
+			return
+		end
+		
+		Log.f("cloning scc %S from %S to %S", scc, url, dest_dir)
+		pshell[scc](scc_arg, url, dest_dir)
 	end
 	
 end
