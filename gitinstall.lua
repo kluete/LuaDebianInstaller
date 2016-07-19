@@ -122,10 +122,10 @@ function main()
 		end
 		
 		Log.f("cloning %S to %S", url, dest_dir)
-		pshell.git("clone", url, dest_dir)
+		shell.git("clone", url, dest_dir)
 		
 		if (branch ~= "") then
-			pshell.git("-C", dest_dir, "checkout", branch)
+			shell.git("-C", dest_dir, "checkout", branch)
 		end
 	end
 	
@@ -171,7 +171,7 @@ function main()
 		end
 		
 		Log.f("cloning scc %S from %S to %S", scc, url, dest_dir)
-		pshell[scc](scc_arg, url, dest_dir)
+		shell[scc](scc_arg, url, dest_dir)
 	end
 	
 end
