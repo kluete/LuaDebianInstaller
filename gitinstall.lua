@@ -63,6 +63,10 @@ function main()
 	table.sort(checklist)
 	
 	local selected_t = dialog.Checklist("my repos", checklist)
+	if (not selected_t) then
+		Log.f(" aborted my repos")
+		return
+	end
 	assertt(selected_t, "table")
 	
 	local github_prefix = "ssh://git@github.com/kluete/"
@@ -91,6 +95,10 @@ function main()
 	table.sort(checklist)
 	
 	selected_t = dialog.Checklist("external repos", checklist)
+	if (not selected_t) then
+		Log.f(" aborted external repos")
+		return
+	end
 	assertt(selected_t, "table")
 	
 	for _, repo_name in ipairs(selected_t) do
