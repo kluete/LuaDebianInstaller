@@ -82,6 +82,11 @@ function main()
 	local lxgit_default = os.getenv("LXGIT") or ""
 	-- local lxgit_default = "/media/vm/test"
 	local lxgit = dialog.SelectDir("select lxgit", lxgit_default)
+	if (not lxgit) then
+		Log.f(" aborted on lxgit select")
+		return
+	end
+	
 	assertt(lxgit, "string")
 	if (not Util.DirExists(lxgit)) then
 		Util.MkDir(lxgit)
