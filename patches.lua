@@ -146,7 +146,8 @@ fi
 		path = "/usr/bin",
 		args =
 		{
-			"ln -s /usr/bin/clang-3.5 /usr/bin/clang",
+			"ln -s /usr/bin/clang-3.8 /usr/bin/clang",
+			"ln -s /usr/bin/clang++-3.8 /usr/bin/clang++",
 			"update-alternatives --install /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-3.7 100",
 			"update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-3.7 100"
 		},
