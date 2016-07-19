@@ -41,11 +41,16 @@ function PromptYesNo(title, msg)
 	assertt(title, "string")
 	assertt(msg, "string")
 	
-	local cod = pshell.dialog("--stdout", "--no-shadow", "--title '"..title.."'", "--yesno", msg, best_sz.h, best_sz.w)
+	local cod = shell.dialog("--stdout", "--no-shadow", "--title '"..title.."'", "--yesno", msg, best_sz.h, best_sz.w)
+	printf("yesno returned cod %S", tostring(cod))
 	
-	local lut = {0 = "yes", 1 = "no", 2 = "extra"}
+	if (not cod) then
+		return "no"
+	end
+	
+	local lut = {[true] = "yes", [0] = "yes", [1] = "no", [2] = "extra"}
 	local res = lut[cod]
-	assert(res)
+	assertf(res, "illegal yes/no return code %S", tostring(cod))
 	
 	return res
 end

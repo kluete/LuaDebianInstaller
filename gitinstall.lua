@@ -53,13 +53,18 @@ function CheckDestDir(dir)
 		return true
 	end
 	
-	local res = dialog.PromptYesNo(sprintf("%s already exists", dir), "erase?")
+	local res = dialog.PromptYesNo(sprintf("%s already exists", dir), "continue?")
+	if (res ~= "yes") then
+		return false
+	end
+	
+	res = dialog.PromptYesNo(sprintf("erase dir %s", dir), "are you sure?")
 	if (res ~= "yes") then
 		return false
 	end
 	
 	Log.f(" erasing dir %S", dir)
-	pshell.rmdir("-rf", Util.EscapePath(dir))
+	pshell.rm("-rf", Util.EscapePath(dir))
 	
 	ok = not Util.DirExists(dir)
 	Log.f(" dir %S blank = %d", dir, ok)
