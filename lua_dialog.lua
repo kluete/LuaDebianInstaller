@@ -36,12 +36,18 @@ end
 ---- Prompt Yes/No -------------------------------------------------------------
 
 local
-function PromptYesNo(title, msg)
+function PromptYesNo(title, msg, default)
 
 	assertt(title, "string")
 	assertt(msg, "string")
 	
-	local cod = shell.dialog("--stdout", "--no-shadow", "--title '"..title.."'", "--yesno", msg, best_sz.h, best_sz.w)
+	local def_s = ""
+	
+	if (default == "no") then
+		def_s = "--defaultno"
+	end
+	
+	local cod = shell.dialog("--stdout", "--no-shadow", "--title '"..title.."'", def_s, "--yesno", "'"..msg.."'", best_sz.h, best_sz.w)
 	printf("yesno returned cod %S", tostring(cod))
 	
 	if (not cod) then

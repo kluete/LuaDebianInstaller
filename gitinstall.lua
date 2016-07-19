@@ -58,7 +58,7 @@ function CheckDestDir(dir)
 		return false
 	end
 	
-	res = dialog.PromptYesNo(sprintf("erase dir %s", dir), "are you sure?")
+	res = dialog.PromptYesNo(sprintf("erase dir %s", dir), "are you sure?", "no")
 	if (res ~= "yes") then
 		return false
 	end
@@ -67,7 +67,7 @@ function CheckDestDir(dir)
 	pshell.rm("-rf", Util.EscapePath(dir))
 	
 	ok = not Util.DirExists(dir)
-	Log.f(" dir %S blank = %d", dir, ok)
+	Log.f(" dir %S blank = %s", dir, tostring(ok))
 	
 	return ok
 end
