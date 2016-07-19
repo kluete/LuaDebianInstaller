@@ -49,8 +49,9 @@ function main()
 	Log.Init("git_installer.log")
 	Log.SetTimestamp("%H:%M:%S > ")
 	
-	-- local lxgit = os.getenv("LXGIT")
-	local lxgit = "/media/vm/test"
+	-- local lxgit_default = os.getenv("LXGIT")
+	local lxgit_default = "/media/vm/test"
+	local lxgit = dialog.SelectDir("select lxgit", lxgit_default)
 	assertt(lxgit, "string")
 	
 	local checklist = {}
