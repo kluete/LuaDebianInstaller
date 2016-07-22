@@ -189,7 +189,7 @@ function main()
 	
 	table.sort(checklist)
 	
-	local selected_t = dialog.Checklist("my repos", FilterExistingLocal(checklist))
+	local selected_t = dialog.Checklist("my repos", FilterExistingLocal(lxgit, checklist))
 	if (not selected_t) then
 		Log.f(" aborted my repos")
 		return
@@ -218,7 +218,7 @@ function main()
 		end
 	end
 	
-	selected_t = dialog.Checklist("external repos", FilterExistingLocal(s_ext_repos))
+	selected_t = dialog.Checklist("external repos", FilterExistingLocal(lxgit, s_ext_repos))
 	if (not selected_t) then
 		Log.f(" aborted external repos")
 		return
@@ -233,7 +233,7 @@ function main()
 		end
 	end
 	
-	selected_t = dialog.Checklist("Inhance repos", FilterExistingLocal(s_inhance_repos))
+	selected_t = dialog.Checklist("Inhance repos", FilterExistingLocal(lxgit, s_inhance_repos))
 	if (not selected_t) then
 		Log.f(" aborted Inhance repos")
 		return
