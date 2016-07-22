@@ -104,6 +104,11 @@ function Checklist(title, t_avail, t_enabled)
 	assertt(title, "string")
 	assertt(t_avail, "table")
 	
+	if (t_avail == {}) then
+		-- empty checklist
+		return {}
+	end
+	
 	local enabled_set = {}
 	if (t_enabled) then
 		assertt(t_enabled, "table")
