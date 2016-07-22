@@ -55,7 +55,7 @@ local s_ext_repos =
 	"libsndfile",
 	"faad2",
 	"catch",
-	"freetyp2",
+	"freetype2",
 	"portaudio",
 	"mpg123",
 	"soundtouch",
