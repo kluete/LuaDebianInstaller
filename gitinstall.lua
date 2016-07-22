@@ -128,8 +128,9 @@ end
 ---- Get Repo ------------------------------------------------------------------
 
 local
-function GetRepo(repo_name)
+function GetRepo(lxgit, repo_name)
 
+	assertt(lxgit, "string")
 	assertt(repo_name, "string")
 	
 	local url = s_repo_lut[repo_name]
@@ -226,7 +227,7 @@ function main()
 	assertt(selected_t, "table")
 	
 	for _, repo_name in ipairs(selected_t) do
-		local ok = GetRepo(repo_name)
+		local ok = GetRepo(lxgit, repo_name)
 		if (not ok) then
 			Log.f(" aborted external repos")
 			return
@@ -241,7 +242,7 @@ function main()
 	assertt(selected_t, "table")
 	
 	for _, repo_name in ipairs(selected_t) do
-		local ok = GetRepo(repo_name)
+		local ok = GetRepo(lxgit, repo_name)
 		if (not ok) then
 			Log.f(" aborted Inhance repos")
 			return
