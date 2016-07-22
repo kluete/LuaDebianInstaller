@@ -45,7 +45,7 @@ local s_repo_lut =
 	rapidjson = "git://github.com/miloyip/rapidjson.git",
 	re2 = "git://github.com/google/re2.git",
 	hashlibpp = "git://github.com/aksalj/hashlibpp.git",
-	cpprestdsk = "clone git://github.com/Microsoft/cpprestsdk.git",
+	cpprestdsk = "git://github.com/Microsoft/cpprestsdk.git",
 }
 
 local s_ext_repos =
