@@ -121,6 +121,8 @@ function FilterExistingLocal(lxgit, repo_list)
 	end
 	
 	table.sort(res_t)
+	
+	return res_t
 end
 
 ---- Get Repo ------------------------------------------------------------------
@@ -186,8 +188,6 @@ function main()
 	for repo_name, v in pairs(s_my_repos) do
 		table.insert(checklist, repo_name)
 	end
-	
-	table.sort(checklist)
 	
 	local selected_t = dialog.Checklist("my repos", FilterExistingLocal(lxgit, checklist))
 	if (not selected_t) then
