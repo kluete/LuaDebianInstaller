@@ -229,7 +229,8 @@ function main()
 		local ok = GetRepo(repo_name)
 		if (not ok) then
 			Log.f(" aborted external repos")
-		return
+			return
+		end
 	end
 	
 	selected_t = dialog.Checklist("Inhance repos", FilterExistingLocal(s_inhance_repos))
@@ -243,7 +244,8 @@ function main()
 		local ok = GetRepo(repo_name)
 		if (not ok) then
 			Log.f(" aborted Inhance repos")
-		return
+			return
+		end
 	end
 end
 
