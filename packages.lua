@@ -69,6 +69,7 @@ programming_packages =
 	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
+	{ ["gcc 5 & 6"] = {"g++-5", "g++-6"}},
 }
 
 qemu_packages =

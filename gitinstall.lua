@@ -35,6 +35,7 @@ local s_ext_repos =
 	faad2 = "git://github.com/mecke/faad2.git",
 	catch = "git://github.com/philsquared/Catch.git",
 	freetype2 = "git://git.sv.gnu.org/freetype/freetype2.git",
+	rapidjson = "git://github.com/miloyip/rapidjson.git",
 	
 	-- svn
 	portaudio = "https://subversion.assembla.com/svn/portaudio/portaudio/trunk",
