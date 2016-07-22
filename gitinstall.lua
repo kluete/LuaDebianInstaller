@@ -27,7 +27,7 @@ local s_my_repos =
 	mupdf = "inhance",
 }
 
-local s_ext_repos =
+local s_repo_lut =
 {
 	asio = "git://github.com/chriskohlhoff/asio.git",
 	lua = "git://github.com/lua/lua.git",
@@ -35,12 +35,38 @@ local s_ext_repos =
 	faad2 = "git://github.com/mecke/faad2.git",
 	catch = "git://github.com/philsquared/Catch.git",
 	freetype2 = "git://git.sv.gnu.org/freetype/freetype2.git",
-	rapidjson = "git://github.com/miloyip/rapidjson.git",
 	
 	-- svn
 	portaudio = "https://subversion.assembla.com/svn/portaudio/portaudio/trunk",
 	mpg123 = "svn://orgis.org/mpg123/trunk",
 	soundtouch = "http://svn.code.sf.net/p/soundtouch/code/trunk",
+	
+	-- inhance
+	rapidjson = "git://github.com/miloyip/rapidjson.git",
+	re2 = "git://github.com/google/re2.git",
+	hashlibpp = "git://github.com/aksalj/hashlibpp.git",
+	cpprestdsk = "clone git://github.com/Microsoft/cpprestsdk.git",
+}
+
+local s_ext_repos =
+{
+	"asio",
+	"lua",
+	"libsndfile",
+	"faad2",
+	"catch",
+	"freetyp2",
+	"portaudio",
+	"mpg123",
+	"soundtouch",
+}
+
+local s_inhance_repos =
+{
+	"rapidjson",
+	"re2",
+	"hashlibpp",
+	"cpprestdsk",
 }
 
 ---- Check Dest Dir ------------------------------------------------------------
@@ -73,6 +99,68 @@ function CheckDestDir(dir)
 	return ok
 end
 
+---- Filter Existing local Repos -----------------------------------------------
+
+local
+function FilterExistingLocal(lxgit, repo_list)
+
+	assertt(lxgit, "string")
+	assertt(repo_list, "table")
+	
+	local res_t = {}
+	
+	for _, repo_name in ipairs(repo_list) do
+	
+		local dest_dir = lxgit .. "/" .. repo_name
+		
+		if (not Util.DirExists(dest_dir)) then
+			table.insert(res_t, repo_name)
+		else
+			Log.f(" ignored repo %S, local already exists", repo_name)
+		end
+	end
+	
+	table.sort(res_t)
+end
+
+---- Get Repo ------------------------------------------------------------------
+
+local
+function GetRepo(repo_name)
+
+	assertt(repo_name, "string")
+	
+	local url = s_repo_lut[repo_name]
+	assertt(url, "string")
+	
+	local scc, scc_arg
+	
+	if (url:find("^git://")) then
+		-- git
+		scc = "git"
+		scc_arg = "clone"
+	elseif (url:find("svn")) then
+		-- svn
+		scc = "svn"
+		scc_arg = "co"		-- (checkout)
+	else
+		-- error, couldn't determine SCC
+		assertf(false, "couldn't determine SCC from url %S", url)
+	end
+	
+	local dest_dir = lxgit .. "/" .. repo_name
+	
+	if (not CheckDestDir(dest_dir)) then
+		Log.f(" aborted on dir %S", dest_dir)
+		return false
+	end
+	
+	Log.f("cloning scc %S from %S to %S", scc, url, dest_dir)
+	shell[scc](scc_arg, url, dest_dir)
+	
+	return true
+end
+
 ---- main ----------------------------------------------------------------------
 
 function main()
@@ -101,7 +189,7 @@ function main()
 	
 	table.sort(checklist)
 	
-	local selected_t = dialog.Checklist("my repos", checklist)
+	local selected_t = dialog.Checklist("my repos", FilterExistingLocal(checklist))
 	if (not selected_t) then
 		Log.f(" aborted my repos")
 		return
@@ -130,15 +218,7 @@ function main()
 		end
 	end
 	
-	checklist = {}
-	
-	for repo_name, _ in pairs(s_ext_repos) do
-		table.insert(checklist, repo_name)
-	end
-	
-	table.sort(checklist)
-	
-	selected_t = dialog.Checklist("external repos", checklist)
+	selected_t = dialog.Checklist("external repos", FilterExistingLocal(s_ext_repos))
 	if (not selected_t) then
 		Log.f(" aborted external repos")
 		return
@@ -146,36 +226,25 @@ function main()
 	assertt(selected_t, "table")
 	
 	for _, repo_name in ipairs(selected_t) do
-		local url = s_ext_repos[repo_name]
-		assertt(url, "string")
-		
-		local scc, scc_arg
-		
-		if (url:find("^git://")) then
-			-- git
-			scc = "git"
-			scc_arg = "clone"
-		elseif (url:find("svn")) then
-			-- svn
-			scc = "svn"
-			scc_arg = "co"		-- (checkout)
-		else
-			-- error, couldn't determine SCC
-			assertf(false, "couldn't determine SCC from url %S", url)
-		end
-		
-		local dest_dir = lxgit .. "/" .. repo_name
-		
-		if (not CheckDestDir(dest_dir)) then
-			Log.f(" aborted on dir %S", dest_dir)
-			return
-		end
-		
-		Log.f("cloning scc %S from %S to %S", scc, url, dest_dir)
-		shell[scc](scc_arg, url, dest_dir)
+		local ok = GetRepo(repo_name)
+		if (not ok) then
+			Log.f(" aborted external repos")
+		return
 	end
 	
+	selected_t = dialog.Checklist("Inhance repos", FilterExistingLocal(s_inhance_repos))
+	if (not selected_t) then
+		Log.f(" aborted Inhance repos")
+		return
+	end
+	assertt(selected_t, "table")
+	
+	for _, repo_name in ipairs(selected_t) do
+		local ok = GetRepo(repo_name)
+		if (not ok) then
+			Log.f(" aborted Inhance repos")
+		return
+	end
 end
-
 
 main()
