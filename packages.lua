@@ -97,6 +97,7 @@ multimedia_packages =
 	{ dvd = {"dvdbackup", "gopchop"}},
 	{ dj = {false, "mixxx", "gstreamer1.0-plugins-bad"}},
 	{ bluetooth = {false, "blueman", false, "bluedevil", "bluetooth", "bluez"}},		-- false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
+	{ ["lxmus runtime"] = {false, "freeglut3", "libcrypto++6", "libc++1", false, "libglew1.13", "libgl1-mesa-dri"}},
 }
 
 tools_packages =
