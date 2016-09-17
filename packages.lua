@@ -15,9 +15,6 @@ pkg_to_add_groups =
 	["cupsd"] = "lpadmin",
 	["minicom"] = "dialout",
 	["qemu-kvm"] = "kvm",
-	
-	-- more?
-	-- disk lp cdrom floppy sudo audio dip video plugdev fuse kvm lpadmin
 }
 
 distro_packages =
@@ -30,16 +27,16 @@ distro_packages =
 
 common_packages =
 {	{ icons = {true, "tango-icon-theme", "hicolor-icon-theme", "xfwm4-themes"}},
-	{ fonts = {true, "ttf-dejavu", "fonts-freefont-ttf", "ttf-liberation"}},								-- 2nd font is for videolan?
+	{ fonts = {true, "ttf-dejavu", "fonts-freefont-ttf", "ttf-liberation"}},				-- 2nd font is for videolan?
 	{ ["crap fonts"] = {false, "gsfonts"}},
 	{ ["X11 fonts"] = {false, "xfonts-100dpi", "xfonts-75dpi", "xfonts-utils", "xfonts-encodings"}},
-	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin"}},
+	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin", "xfce4-mixer"}},
 	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", "most", "ufw", false, "galternatives", "debfoster", "deborphan", "apt-file", "debtree", "ntp"}},
 	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "usbutils", "xfce4-screenshooter", "lshw-gtk", false, "rsync", "qalculate-gtk"}},
 	{ audio = {true, "alsa-utils", "alsa-base"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
-	{ wifi = {false, "wicd-gtk", "rfkill", "wicd", false, "firmware-iwlwifi"}},	-- firmware fpx xps13 wifi (non-free)
+	{ wifi = {false, "wicd-gtk", "rfkill", "wicd", false, "firmware-iwlwifi"}},	-- firmware for xps13 wifi (non-free)
 	{ wifi_debug = {false, "wpagui", "wireless-tools", "wpasupplicant", "iw"}},
 }
 
@@ -83,7 +80,7 @@ mount_packages =
 }
 
 printing_packages =
-{	{ ["CUPS printing"] = {"cups", "ghostscript", "system-config-printer", false, "hplip", "a2ps", "sam2p", "libjpeg-progs"}},		-- no longer in Jessie: xfprint4
+{	{ ["CUPS printing"] = {"cups", "ghostscript", "system-config-printer", false, "hplip", "a2ps", "sam2p", "libjpeg-progs"}},
 	{ ["SANE scanner"] = {"xsane"}},
 }
 
@@ -96,7 +93,7 @@ multimedia_packages =
 	{ DVB = {"dvb-apps", false, "me-tv", "w-scan"}},
 	{ dvd = {"dvdbackup", "gopchop"}},
 	{ dj = {false, "mixxx", "gstreamer1.0-plugins-bad"}},
-	{ bluetooth = {false, "blueman", false, "bluedevil", "bluetooth", "bluez"}},		-- false, "gnome-bluetooth", "btscanner", "bluez-obexd"}},
+	{ bluetooth = {false, "blueman", false, "pulseaudio", "pulseaudio-module-bluetooth", "pavucontrol"}},		-- also bluez-firmware in non-free
 }
 
 tools_packages =
