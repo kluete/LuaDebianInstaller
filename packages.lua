@@ -81,7 +81,7 @@ mount_packages =
 
 printing_packages =
 {	{ ["CUPS printing"] = {"cups", "ghostscript", "system-config-printer", false, "hplip", "a2ps", "sam2p", "libjpeg-progs"}},
-	{ ["SANE scanner"] = {"xsane"}},
+	{ ["SANE scanner"] = {"xsane", "sane"}},
 }
 
 multimedia_packages =
