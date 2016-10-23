@@ -47,6 +47,7 @@ office_packages =
 	{ graphics = {"gimp", "inkscape", "dia"}},
 	{ PDF = {"mupdf", "mupdf-tools", "evince", false, "autocutsel", "pdfgrep", "pdfshuffler"}},		-- should add new Jessie pdf desktop app (with printing)
 	{ CHM = {"xchm"}},
+	{ spellcheck = {"hunspell-en-us", "hunspell-fr-comprehensive", "hunspell-es"}},
 	{ ["remote desktop"] = {"remmina-plugin-vnc", false, "x11vnc"}},					-- ! deps avahi?
 }
 
