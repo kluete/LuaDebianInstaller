@@ -17,7 +17,7 @@ pkg_to_add_groups =
 	["qemu-kvm"] = "kvm",
 }
 
-distro_packages =
+distro_packages =w
 {	
 	{ ["Xfce core"] = {true, "xserver-xorg", "xfce4-session", "xfce4-panel", "xfce4-terminal", "xfdesktop4", "xfwm4", "thunar"}},
 	{ auth = {true, "gvfs", "gksu", "xdg-utils", "gvfs-bin", "libpam-ck-connector", "policykit-1", "gvfs-daemons", "thunar-volman", "slim"}},
@@ -35,7 +35,7 @@ common_packages =
 	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "usbutils", "xfce4-screenshooter", "lshw-gtk", false, "rsync", "qalculate-gtk"}},
 	{ audio = {true, "alsa-utils", "alsa-base"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
-	  "xfce4-battery-plugin" }},
+	  "xfce4-battery-plugin" }},sssssssss
 	{ wifi = {false, "wicd-gtk", "rfkill", "wicd", false, "firmware-iwlwifi"}},	-- firmware for xps13 wifi (non-free)
 	{ wifi_debug = {false, "wpagui", "wireless-tools", "wpasupplicant", "iw"}},
 }
@@ -88,14 +88,14 @@ printing_packages =
 multimedia_packages =
 {
 	{ web = {"iceweasel"}},
-	{ video = {"vlc", "gtk-recordmydesktop", "youtube-dl", download = "http://download.videolan.org/pub/libdvdcss/1.2.10/deb/libdvdcss2_1.2.9-1_i386.deb"}},		-- source in 1.2.13
+	{ video = {"vlc", "gtk-recordmydesktop", "youtube-dl", "cheese", download = "http://download.videolan.org/pub/libdvdcss/1.2.10/deb/libdvdcss2_1.2.9-1_i386.deb"}},		-- source in 1.2.13
 	{ transcoding = {"oggconvert", "transmageddon", "libav-tools", "vpx-tools", "libavcodec-extra-53"}},
 	{ BitTorrent = {"qbittorrent"}},
 	{ DVB = {"dvb-apps", false, "me-tv", "w-scan"}},
 	{ dvd = {"dvdbackup", "gopchop"}},
 	{ dj = {false, "mixxx", "gstreamer1.0-plugins-bad"}},
 	{ bluetooth = {false, "blueman", false, "pulseaudio", "pulseaudio-module-bluetooth", "pavucontrol"}},		-- also bluez-firmware in non-free
-	{ ["lxmus runtime"] = {false, "freeglut3", "libcrypto++6", "libc++1", false, "libglew1.13", "libgl1-mesa-dri"}},
+	{ ["lxmus runtime"] = {false, "freeglut3", "libcrypto++6", "libc++1", false, "libgl1-mesa-dri"}},		-- "libglew1.13" missing
 }
 
 tools_packages =
