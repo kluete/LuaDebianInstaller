@@ -160,6 +160,8 @@ fi
 		args =
 		{
 			"wget ftp.perforce.com/perforce/r14.3/bin.linux26x86_64/p4v.tgz",
+			--[[ extract with
+			tar --strip-components=1 -sxzvf p4v.tgz -C /usr/local]]
 		},
 	}
 },
