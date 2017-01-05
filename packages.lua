@@ -64,10 +64,10 @@ programming_packages =
 	{ ["Valgrind"] = {"valgrind"}},
 	{ ["audio"] = {"libasound2-dev", "libsndfile1-dev", "atomicparsley"}},
 	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},	-- for wxGL dev
-	{ ["clang3.5"] = {"clang-3.5", "libc++1", "libc++-dev", "libclang-3.5-dev", "clang-format-3.5", "liblldb-3.5-dev"}},
+	{ ["clang3.6"] = {"clang-3.6", "libc++1", "libc++-dev", "libclang-3.6-dev", "clang-format-3.6", "liblldb-3.6-dev"}},
 	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
-	{ ["gcc 5 & 6"] = {"g++-5", "g++-6"}},
+	{ ["gcc56"] = {"g++-5", "g++-6"}},
 }
 
 qemu_packages =

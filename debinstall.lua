@@ -373,12 +373,13 @@ end
 ---- Add to Check List ---------------------------------------------------------
 
 local
-function AddToCheckList(menu_name, menu_entry, dupes_t)
+function AddToCheckList(menu_name, menu_entry, dupes_t, avail_t)
 
 	Log.f("AddToCheckList(%S)", tostring(menu_name))
 	
 	assert("table" == type(ckecklist_entries))
 	assert("table" == type(dupes_t))
+	assert("table" == type(avail_t))
 
 	--[[
 		# each entry is triplet
@@ -395,6 +396,9 @@ function AddToCheckList(menu_name, menu_entry, dupes_t)
 		--output-fd
 	]]
 	
+	-- --buildlist text height width list-height 
+	
+	
 	table.insert(ckecklist_entries, ('"---- %s ----" "" 0'):format(menu_name))
 	
 	-- entry is off by default
@@ -402,10 +406,18 @@ function AddToCheckList(menu_name, menu_entry, dupes_t)
 
 	for k, entry in ipairs(menu_entry) do
 		
+		local pkg = entry
+			
+		if (type(pkg) ~= "boolean" and not avail_t[pkg]) then
+			Log.f("error: UNAVAILABLE package %S", tostring(pkg))
+			return nil	-- error
+		end	
+			
 		if (dupes_t[entry]) then
 		
+			-- already have it
 			-- backslash doesn't work when 1st char
-			table.insert(ckecklist_entries, ('^%s^ "^" 0'):format(entry))			-- tag already-installed with underscores
+			-- table.insert(ckecklist_entries, ('%s %s on'):format(pkg, pkg))			-- tag already-installed with underscores
 			
 		else
 		
@@ -417,7 +429,7 @@ function AddToCheckList(menu_name, menu_entry, dupes_t)
 					flag_s = "0"
 				end
 			else
-				table.insert(ckecklist_entries, ('%s "" %s'):format(entry, flag_s))
+				table.insert(ckecklist_entries, ('%s %s %s'):format(pkg, pkg, flag_s))
 			end
 		end
 	end
@@ -433,6 +445,19 @@ function AddPackagesCheckList(pkgs_def)
 	
 	local dupes = GetDupePackages()
 	
+	local all_t = tshell['apt-cache']("pkgnames")
+	if (not all_t) then
+		return nil
+	end
+	
+	table.sort(all_t)
+	
+	local all_set = {}
+	
+	for k, pkg in ipairs(all_t) do
+		all_set[pkg] = true
+	end
+	
 -- build packages checklist
 	for _, menu_entry in ipairs(pkgs_def) do
 	
@@ -440,15 +465,16 @@ function AddPackagesCheckList(pkgs_def)
 		
 		for title, entry in pairs(menu_entry) do
 		
-			AddToCheckList(title, entry, dupes)
+			AddToCheckList(title, entry, dupes, all_set)
+		
 		end
 	end
 end
-	
+
 ---- Validate Packages ---------------------------------------------------------
 
 local
-function ValidatePackages(pack_list, group_list)
+function ValidatePackages(pack_list)
 
 	Log.f("ValidatePackages()")
 	
@@ -459,10 +485,7 @@ function ValidatePackages(pack_list, group_list)
 		local res = Debian.PackageStatus(pkg)
 		assert(res)
 		
-		if ("unavailable" == res) then
-			Log.f("error: UNAVAILABLE package %S", pkg)
-			return nil		-- error
-		elseif ("installed" == res) then
+		if ("installed" == res) then
 			-- printf("skipping installed package %S", pkg)
 		else
 			table.insert(filtered_tab, pkg)
@@ -483,18 +506,13 @@ function PromptInstallPackages()
 	
 -- prompt checklist
 	-- "--colors" don't work
-	local res_s = pshell.dialog("--stdout", "--checklist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
-	if (not res_s) then
+	local pack_t = tshell.dialog("--separate-output", "--stdout", --[["--visit-items",]] "--buildlist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
+	if (not pack_t or {} == pack_t) then
 		return "canceled"
 	end
 	
--- decode checklist reply
-	local pack_t = {}
-	res_s:gsub("([%w_%.%-%+%^]+)",	function(s)
-						if (not s:find("%^")) then
-							table.insert(pack_t, s)
-						end
-					end)
+	Log.f("%d entries = %S", #pack_t, table.concat(pack_t, "|"))
+	
 -- confirm packages
 	res_s = shell.dialog("--yesno", '"confirm:\n\n' .. table.concat(pack_t, '\n') .. '"', 0, 0)
 	if (not res_s) then
@@ -503,9 +521,7 @@ function PromptInstallPackages()
 	end
 
 -- validate packages
-	local togroups = {}
-
-	local filtered_t = ValidatePackages(pack_t, togroups)
+	local filtered_t = ValidatePackages(pack_t)
 	if (not filtered_t) then
 		Log.f("warning: some packages missing, canceling")
 	
@@ -637,9 +653,9 @@ function main()
 		
 		if ("exit" == res) then
 			break
-		elseif ("canceled" ~= res) then
+		elseif ("canceled" == res) then
 			io.write("\nwas canceled, press Return...");io.read()
-		elseif ("warning" ~= res) then
+		elseif ("warning" == res) then
 			io.write("\nhad warning, press Return...");io.read()
 		else	-- ok
 			io.write("\npress Return...");io.read()
