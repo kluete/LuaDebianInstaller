@@ -56,7 +56,7 @@ programming_packages =
 	{ ["utils"] = {"git", "git-gui", "gitk", "subversion", "graphviz", "graphviz-doc", "bash-doc", "xterm", "console-setup"}},	-- xterm for codelite
 	{ ["dev libraries"] = {"libgtk2.0-dev", "libjpeg-dev", "libnotify-dev", "cscope", "exuberant-ctags", "libcrypto++-dev"}},
 	{ ["builders"] = {"autoconf", "automake", "libtool", "autogen"}},
-	{ ["multilib"] = {false, "gcc-multilib", "g++-multilib", "libc++-dev:i386", "libc++-dev:i386", "libc++1:i386", "libgcc1:i386", "libstdc++6:i386", "libc++-helpers:i386"}},
+	{ ["multilib"] = {false, "gcc-multilib", "g++-multilib", "libc++-dev:i386", "libc++1:i386", "libgcc1:i386", "libstdc++6:i386", "libc++-helpers:i386"}},
 	{ ["net libraries"] = {"libcurl4-gnutls-dev", "libpcap0.8-dev"}},
 	{ ["lua"] = {"libreadline-dev", "lua-socket", "lua-posix", "libid3-tools", false, "luarocks", "lua5.3", "liblua5.3-dev"}},
 	{ ["man and doc"] = {"cppman", false, "manpages-dev"}},
@@ -65,7 +65,7 @@ programming_packages =
 	{ ["audio"] = {"libasound2-dev", "libsndfile1-dev", "atomicparsley"}},
 	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},	-- for wxGL dev
 	{ ["clang3.8"] = {"clang-3.8", "libc++1", "libc++-dev", "libclang-3.8-dev", "clang-format-3.8", "liblldb-3.8-dev"}},
-	{ ["gcc4.9"] = {"gcc-4.9", "libstdc++-4.9-dev"}},
+	{ ["gcc4.9"] = {"libstdc++-4.9-dev"}},
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
 	{ ["gcc56"] = {"g++-5", "g++-6"}},
 }
