@@ -98,7 +98,8 @@ KERNEL=="sd*", SUBSYSTEMS=="block", ATTRS{idProduct}=="4060", ATTRS{idVendor}=="
 	},
 },
 
-XkbModel
+
+-- or in /etc/default/keyboard 
 { title = "keyboard KVM",
 	{	op = "addlines",
 		path = "/etc/X11/xorg.conf.d/00-keyboard.conf",
