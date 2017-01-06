@@ -517,8 +517,6 @@ function PromptInstallPackages()
 		return "canceled"
 	end
 	
-	Log.f("%d entries = %S", #pack_t, table.concat(pack_t, "|"))
-	
 -- confirm packages
 	res_s = shell.dialog("--yesno", '"confirm:\n\n' .. table.concat(pack_t, '\n') .. '"', 0, 0)
 	if (not res_s) then
