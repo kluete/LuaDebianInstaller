@@ -84,6 +84,46 @@ export LXGIT="$LXDEV/git"
 	},
 },
 
+{ title = "ignore flash card devices",
+	{	op = "addlines",
+		path = "/etc/udev/udev.rules/80-udisks2.rules",
+		nmatch = "SD card readers",
+		args = {[[
+# disable SD card readers
+KERNEL=="sd*", SUBSYSTEMS=="block", ATTRS{idProduct}=="058f", ATTRS{idVendor}=="6362", ENV{UDISKS_IGNORE}="1"
+KERNEL=="sd*", SUBSYSTEMS=="block", ATTRS{idProduct}=="4060", ATTRS{idVendor}=="0424", ENV{UDISKS_IGNORE}="1"
+
+]]
+		},
+	},
+},
+
+XkbModel
+{ title = "keyboard KVM",
+	{	op = "addlines",
+		path = "/etc/X11/xorg.conf.d/00-keyboard.conf",
+		nmatch = "XkbModel",
+		args = {[[
+Section "InputClass"
+        Identifier "system-keyboard"
+        MatchIsKeyboard "on"
+        Option "XkbLayout" "us,us"
+        Option "XkbModel" "microsoft4000"
+        Option "XkbVariant" "euro,intl"
+        Option "XkbOptions" "ctrl:nocaps"
+        Option "XkbOptions" "grp:win_switch"
+        Option "XkbOptions" "altwin:ctrl_alt_win"
+        Option "AutoRepeat" "660 75"
+EndSection
+
+
+]]
+		},
+	},
+},
+
+
+
 { title = "user .nanorc",
 	{	op = "addlines",
 		path = "$LSK/.nanorc",
