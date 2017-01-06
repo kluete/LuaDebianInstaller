@@ -10,6 +10,12 @@
 	- confirm get set, use
 	  'id -G'	# ids
 	  'id -nG'	# names
+	  
+# diff packages between machines
+
+ dpkg-query -W -f='${Package}\n' | sort > baselist8900.txt
+ comm -1 -3 <(ssh debdev cat /media/blek/baselist8900.txt) <(dpkg-query -W -f='${Package}\n' | sort)
+
 ]]
 
 package.path = package.path .. ";../?.lua;../DebLua/?.lua"
