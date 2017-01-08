@@ -99,6 +99,20 @@ KERNEL=="sd*", SUBSYSTEMS=="block", ATTRS{idProduct}=="4060", ATTRS{idVendor}=="
 },
 
 
+{ title = "hide NTFS partitions",
+	{	op = "addlines",
+		path = "/etc/udev/rules.d/80-udisks2.rules",
+		nmatch = "SYSTEM_RESERVED",
+		args = {[[
+# NTFS recovery partition
+ENV{ID_FS_TYPE}=="ntfs" ENV{ID_FS_LABEL}=="SYSTEM_RESERVED|System_Reserved|System Reserved", ENV{UDISKS_IGNORE}="1"
+
+]]
+		},
+	},
+},
+
+
 -- or in /etc/default/keyboard 
 { title = "keyboard KVM",
 	{	op = "addlines",
