@@ -514,7 +514,7 @@ function PromptInstallPackages()
 	
 -- prompt checklist
 	-- "--colors" don't work
-	local pack_t = tshell.dialog("--separate-output", "--stdout", --[["--visit-items",]] "--buildlist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
+	local pack_t = tshell.dialog("--separate-output", "--stdout", "--visit-items", "--buildlist", "'Packages'", 0, 0, 0, table.concat(ckecklist_entries, " "))
 	if (not pack_t or {} == pack_t) then
 		return "canceled"
 	end
@@ -660,7 +660,7 @@ function main()
 		if ("exit" == res) then
 			break
 		elseif ("canceled" == res) then
-			io.write("\nwas canceled, press Return...");io.read()
+			-- io.write("\nwas canceled, press Return...");io.read()
 		elseif ("warning" == res) then
 			io.write("\nhad warning, press Return...");io.read()
 		else	-- ok

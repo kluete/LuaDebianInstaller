@@ -64,7 +64,7 @@ programming_packages =
 	{ ["Valgrind"] = {"valgrind"}},
 	{ ["audio"] = {"libasound2-dev", "libsndfile1-dev", "atomicparsley"}},
 	{ ["OpenGL dev libs"] = {"libgl1-mesa-dri", "libgl1-mesa-glx", "libgl1-mesa-dev", "freeglut3-dev", "libglfw3-dev", "mesa-utils", "libglu1-mesa-dev", "libglew-dev"}},	-- for wxGL dev
-	{ ["clang3.8"] = {"clang-3.8", "libc++1", "libc++-dev", "libclang-3.8-dev", "clang-format-3.8", "liblldb-3.8-dev"}},
+	{ ["clang3.8"] = {"clang-3.8", "clang++-3.8", "libc++1", "libc++-dev", "libclang-3.8-dev", "liblldb-3.8-dev", false, "clang-format-3.8"}},
 	{ ["gcc4.9"] = {"libstdc++-4.9-dev"}},
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
 	{ ["gcc56"] = {"g++-5", "g++-6"}},
@@ -77,7 +77,7 @@ qemu_packages =
 mount_packages =
 {	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", "gdisk", false, "gsmartcontrol", "cryptsetup-bin", "cryptmount", "jfsutils", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool"}},
 	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
-	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", "libusbmuxd-tools", "libplist-utils", false, "gtkpod"}},
+	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", "libusbmuxd-tools", false, "libplist-utils", "gtkpod"}},
 }
 
 printing_packages =

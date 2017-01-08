@@ -86,7 +86,7 @@ export LXGIT="$LXDEV/git"
 
 { title = "ignore flash card devices",
 	{	op = "addlines",
-		path = "/etc/udev/udev.rules/80-udisks2.rules",
+		path = "/etc/udev/rules.d/80-udisks2.rules",
 		nmatch = "SD card readers",
 		args = {[[
 # disable SD card readers
