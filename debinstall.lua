@@ -277,6 +277,8 @@ function Debian.AppendLines(fn, lines_t, nmatch)
 			Log.f("  found nmatch %S, aborting...", nmatch)
 			return "canceled"					-- canceled -- should apply nmatch EARLIER and hide from menu???
 		end
+	else
+		shell.touch(fn)
 	end
 	
 	local append_s = table.concat(lines_t, "\n")
