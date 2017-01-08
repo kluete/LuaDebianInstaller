@@ -102,6 +102,7 @@ tools_packages =
 {	{ core = {true, "wget", "lftp", "mtr", "ethtool", "dmidecode", "gdmap", "apt-file", "usbview"}},
 	{ online = {"curl", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", false, "geoip-bin", "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
-	{ servers = {"openssh-server", "x11vnc"}},
+	{ servers = {"openssh-server", "x11vnc", false, "x2x"}},
+	{ sshclient = {"keypass", "ssh-agent", "ssh-add", "ssh-askpass"}},
 	{ dedup = {"rdfind"}},		-- dedup, binutils provides 'strings'
 }
