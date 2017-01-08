@@ -105,7 +105,8 @@ KERNEL=="sd*", SUBSYSTEMS=="block", ATTRS{idProduct}=="4060", ATTRS{idVendor}=="
 		nmatch = "SYSTEM_RESERVED",
 		args = {[[
 # NTFS recovery partition
-ENV{ID_FS_TYPE}=="ntfs" ENV{ID_FS_LABEL}=="SYSTEM_RESERVED|System_Reserved|System Reserved", ENV{UDISKS_IGNORE}="1"
+ENV{ID_FS_TYPE}=="ntfs", ENV{ID_FS_LABEL}=="SYSTEM_RESERVED|System_Reserved|System Reserved", ENV{UDISKS_IGNORE}="1"
+ENV{ID_FS_TYPE}=="ntfs", ENV{UDISKS_IGNORE}="1"
 
 ]]
 		},
