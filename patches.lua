@@ -242,6 +242,18 @@ fi
 	},
 },
 
+-- will need pre-generated HOST keys
+{ title = "start SSH server",
+	{	op = "exec",
+		path = "/root",
+		-- flagtor function () shell.ps('-C', '"sshd"', '-o "%p"')
+		args =
+		{	"ssh-keygen -A",
+			"systemctl start sshd.service",
+		},
+	},
+},
+
 { title = "link Documents",
 	{	op = "exec",
 		path = "$LSK/.local/share/notes",
