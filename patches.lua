@@ -161,30 +161,6 @@ set softwrap
 },
 
 --[[
--- or in /etc/default/keyboard 
-{ title = "keyboard KVM",
-	{	op = "addlines",
-		path = "/etc/X11/xorg.conf.d/00-keyboard.conf",
-		nmatch = "XkbModel",
-		args = {[[
-Section "InputClass"
-        Identifier "system-keyboard"
-        MatchIsKeyboard "on"
-        Option "XkbLayout" "us,us"
-        Option "XkbModel" "microsoft4000"
-        Option "XkbVariant" "euro,intl"
-        Option "XkbOptions" "ctrl:nocaps"
-        Option "XkbOptions" "grp:win_switch"
-        Option "XkbOptions" "altwin:ctrl_alt_win"
-        Option "AutoRepeat" "660 75"
-EndSection
-
-
-]]
-		},
-	},
-},
-
 
 { title = "link clang 3.5 binaries",
 	{	op = "exec",
