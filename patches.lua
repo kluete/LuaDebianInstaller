@@ -114,32 +114,6 @@ ENV{ID_FS_TYPE}=="ntfs", ENV{UDISKS_IGNORE}="1"
 },
 
 
--- or in /etc/default/keyboard 
-{ title = "keyboard KVM",
-	{	op = "addlines",
-		path = "/etc/X11/xorg.conf.d/00-keyboard.conf",
-		nmatch = "XkbModel",
-		args = {[[
-Section "InputClass"
-        Identifier "system-keyboard"
-        MatchIsKeyboard "on"
-        Option "XkbLayout" "us,us"
-        Option "XkbModel" "microsoft4000"
-        Option "XkbVariant" "euro,intl"
-        Option "XkbOptions" "ctrl:nocaps"
-        Option "XkbOptions" "grp:win_switch"
-        Option "XkbOptions" "altwin:ctrl_alt_win"
-        Option "AutoRepeat" "660 75"
-EndSection
-
-
-]]
-		},
-	},
-},
-
-
-
 { title = "user .nanorc",
 	{	op = "addlines",
 		path = "$LSK/.nanorc",
@@ -168,7 +142,7 @@ set softwrap
 		{
 			"dpkg-reconfigure xkb-data",
 		},
-	}
+	},
 },
 
 { title = "c cedilla",
@@ -185,6 +159,32 @@ set softwrap
 		},
 	},
 },
+
+--[[
+-- or in /etc/default/keyboard 
+{ title = "keyboard KVM",
+	{	op = "addlines",
+		path = "/etc/X11/xorg.conf.d/00-keyboard.conf",
+		nmatch = "XkbModel",
+		args = {[[
+Section "InputClass"
+        Identifier "system-keyboard"
+        MatchIsKeyboard "on"
+        Option "XkbLayout" "us,us"
+        Option "XkbModel" "microsoft4000"
+        Option "XkbVariant" "euro,intl"
+        Option "XkbOptions" "ctrl:nocaps"
+        Option "XkbOptions" "grp:win_switch"
+        Option "XkbOptions" "altwin:ctrl_alt_win"
+        Option "AutoRepeat" "660 75"
+EndSection
+
+
+]]
+		},
+	},
+},
+
 
 { title = "link clang 3.5 binaries",
 	{	op = "exec",
@@ -210,6 +210,7 @@ set softwrap
 		},
 	}
 },
+]]
 
 { title = "get Perforce client",
 	{	op = "exec",
