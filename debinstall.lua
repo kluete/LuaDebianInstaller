@@ -302,7 +302,7 @@ function Debian.GsubLines(fn, gsub_list)
 	
 	-- FUCKED, operates on WHOLE STRING instead of LINES (FIXME)
 	-- ^$ anchors only apply to start/end of WHOLE STRING
-	assertf(type(fn) == "string", "illegal source path in Debian.AppendLines()")
+	assertf(type(fn) == "string", "illegal source path in Debian.GsubLines()")
 	
 	if (not Util.FileExists(fn)) then
 		Log.f(" error - file %S doesn't exist", fn)
