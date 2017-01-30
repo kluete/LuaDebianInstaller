@@ -153,21 +153,22 @@ set softwrap
 },
 
 { title = "keyboard alt/ctrl swap",
-	{	op = "addlines",
-		path = "$LSK/.profile",		-- kb models: microsoft4000 dellsk8125 pc105
-		nmatch = "setxkbmap",
-		args = {[[
-# disable screensaver
-# xset -dpms
-# xset s noblank
-# xset s off
-
-if [ "$DISPLAY" != "" ]; then
- setxkbmap -option -model pc105 -layout us,us -variant euro,intl -option grp:win_switch -option altwin:ctrl_alt_win -option compose:rctrl
- xset -display :0 r rate 660 75
-fi
-]]		},
+	{	op = "gsublines",
+		path = "/usr/share/X11/xkb/keycodes/evdev",
+		args =
+		{	{'^(%s+<LALT> = )(64;)$', '%1 37; // %2'},
+			{'^(%s+<LCTL> = )(37;)$', '%1 64; // %2'},
+			{'^(%s+<RCTL> = )(105;)$', '%1 108; // %2'},
+			{'^(%s+<RALT> = )(108;)$', '%1 105; // %2'},			
+		},
 	},
+	{	op = "exec",
+		path = "/usr/bin",
+		args =
+		{
+			"dpkg-reconfigure xkb-data",
+		},
+	}
 },
 
 { title = "c cedilla",
