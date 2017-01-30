@@ -645,8 +645,6 @@ function main()
 	
 	Debian:Init()
 	
-	os.exit()
-	
 	local pwd = os.getenv("PWD")
 	
 	Patches.ParseAllPatches()
