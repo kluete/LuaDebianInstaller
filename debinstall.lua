@@ -33,10 +33,13 @@ require "packages"
 
 function Debian:Init()
 
-	-- get release name (Wheezy|Jessie)
-	local releaseLUT = {wheezy = "wheezy", jessie = "jessie", testing = "jessie"}
+	-- get release name
+	local releaseLUT = {wheezy = "wheezy", jessie = "jessie", stretch = "stretch"}
 	
-	self.Release = pshell.lsb_release("-a", "2>&1 | grep -Eo '(wheezy|jessie|testing)'")
+	local codename = pshell.lsb_release("-a", "2>&1 | egrep Codename")
+	asertt(codename, "string")
+	self.Release = codename:match('^Codename:%s+(%a+)$')
+	asertt(self.Release, "string")
 	self.Release = releaseLUT[self.Release]
 	assertf(self.Release, "unknown Debian release!")
 	printf('Debian release %S', tostring(self.Release))                           -- FIXME for ARM
@@ -641,6 +644,8 @@ function main()
 	Log.SetTimestamp("%H:%M:%S > ")
 	
 	Debian:Init()
+	
+	os.exit()
 	
 	local pwd = os.getenv("PWD")
 	
