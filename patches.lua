@@ -126,7 +126,7 @@ set softwrap
 	},
 },
 
-{ title = "keyboard alt/ctrl swap",
+{ title = "keyboard alt/ctrl swap",					-- must apply after kernel upgrade
 	{	op = "gsublines",
 		path = "/usr/share/X11/xkb/keycodes/evdev",
 		args =
