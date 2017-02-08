@@ -173,20 +173,21 @@ set softwrap
 		},
 	}
 },
+]]
 
-{ title = "link clang 3.7/8 binaries",
+{ title = "set clang/lldb 3.9",
 	{	op = "exec",
 		path = "/usr/bin",
 		args =
 		{
-			"ln -s /usr/bin/clang-3.8 /usr/bin/clang",
-			"ln -s /usr/bin/clang++-3.8 /usr/bin/clang++",
-			"update-alternatives --install /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-3.7 100",
-			"update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-3.7 100"
+			"update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.9 80",
+			"update-alternatives --install /usr/bin/clang++	clang++	/usr/bin/clang++-3.9 80",
+			"update-alternatives --install /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-3.9 80",
+			"update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-3.9 80"
 		},
 	}
 },
-]]
+
 
 { title = "get Perforce client",
 	{	op = "exec",
