@@ -100,7 +100,7 @@ multimedia_packages =
 }
 
 tools_packages =
-{	{ core = {true, "wget", "lftp", "mtr", "ethtool", "dmidecode", "gdmap", "apt-file", "usbview"}},
+{	{ core = {true, "wget", "lftp", "mtr", "ethtool", "dmidecode", "gdmap", "apt-file", "usbview", "htop"}},
 	{ online = {"curl", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", false, "geoip-bin", "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ servers = {"openssh-server", "x11vnc", false, "x2x"}},
