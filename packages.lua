@@ -36,7 +36,7 @@ common_packages =
 	{ audio = {true, "alsa-utils", "alsa-base"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
-	{ wifi = {false, "wicd-gtk", "rfkill", "wicd", false, "firmware-linux-nonfree", "firmware-iwlwifi"}},	-- firmware for xps13 wifi (non-free)
+	{ wifi = {false, "wicd-gtk", "rfkill", "wicd", false, "firmware-linux-nonfree", "firmware-iwlwifi", "firmware-realtek"}},	-- firmware for xps13 wifi (non-free)
 	{ wifi_debug = {false, "wicd-curses", "wpagui", "wireless-tools", "wpasupplicant", "iw"}},
 }
 
