@@ -69,6 +69,8 @@ export WXCONFIG_LUA="$P4_WORKSPACE/DebLua/wxconfig.lua"
 export LXBUILD="$LXDEV/build"
 export LXGIT="$LXDEV/git"
 
+export ASAN_SYMBOLIZER_PATH=$(which llvm-symbolizer)
+
 ]]
 		},
 	},
