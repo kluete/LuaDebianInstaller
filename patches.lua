@@ -184,6 +184,7 @@ set softwrap
 			"update-alternatives --install /usr/bin/clang++	clang++	/usr/bin/clang++-3.9 80",
 			"update-alternatives --install /usr/bin/lldb-server lldb-server /usr/bin/lldb-server-3.9 80",
 			"update-alternatives --install /usr/bin/lldb lldb /usr/bin/lldb-3.9 80"
+			"update-alternatives --install /usr/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-3.9 80"
 		},
 	}
 },
