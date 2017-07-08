@@ -22,7 +22,7 @@ distro_packages =
 	{ ["Xfce core"] = {true, "xserver-xorg", "xfce4-session", "xfce4-panel", "xfce4-terminal", "xfdesktop4", "xfwm4", "thunar"}},
 	{ auth = {true, "gvfs", "gksu", "xdg-utils", "gvfs-bin", "libpam-ck-connector", "policykit-1", "gvfs-daemons", "thunar-volman", "slim"}},
 	{ ["UI libs"] = {true, "librsvg2-common", "gtk2-engines-xfce", "gtk2-engines-pixbuf", "libgtk2.0-bin", "libxfce4util-bin"}},
-	{ compression = {true, "binutils", "sysv-rc-conf", "thunar-archive-plugin", "xarchiver", "bzip2", "zip", "unzip", "p7zip-full"}}
+	{ compression = {true, "binutils", "sysv-rc-conf", "thunar-archive-plugin", "xarchiver", "bzip2", "zip", "unzip", "p7zip-full", "unar"}}
 }
 
 common_packages =
