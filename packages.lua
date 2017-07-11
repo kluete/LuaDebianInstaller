@@ -69,6 +69,8 @@ programming_packages =
 	{ ["gcc4.9"] = {"libstdc++-4.9-dev"}},
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
 	{ ["gcc56"] = {"g++-5", "g++-6"}},
+	{ ["inhance"] = {false, "imagemagick", "gdal-bin"}},
+	
 }
 
 qemu_packages =
