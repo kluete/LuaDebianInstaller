@@ -27,7 +27,7 @@ distro_packages =
 
 common_packages =
 {	{ icons = {true, "tango-icon-theme", "hicolor-icon-theme", "xfwm4-themes"}},
-	{ fonts = {true, "ttf-dejavu", "fonts-freefont-ttf", "ttf-liberation"}},				-- 2nd font is for videolan?
+	{ fonts = {true, "ttf-dejavu", "fonts-freefont-ttf", "ttf-liberation", "msttcorefonts"}},				-- 2nd font is for videolan?
 	{ ["crap fonts"] = {false, "gsfonts"}},
 	{ ["X11 fonts"] = {false, "xfonts-100dpi", "xfonts-75dpi", "xfonts-utils", "xfonts-encodings"}},
 	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin", "xfce4-mixer", "xfce4-power-manager"}},
