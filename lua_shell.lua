@@ -254,7 +254,6 @@ function hexdump(str)
     print(shexdump(str), "\n")
 end
 
-local
 function shexasciidump(buf)
 
     local s=""
