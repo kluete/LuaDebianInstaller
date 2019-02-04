@@ -255,13 +255,14 @@ function hexdump(str)
 end
 
 local
-function shexasciidump(buf)
+function shexasciidump(buf, max_len)
 
     local s=""
+    local len = max_len or #buf
     
-    for i=1,math.ceil(#buf/16) * 16 do
+    for i=1,math.ceil(len/16) * 16 do
         if (i-1) % 16 == 0 then s=s..string.format('%08X  ', i-1) end
-        s=s..( i > #buf and '   ' or string.format('%02X ', buf:byte(i)))
+        s=s..( i > len and '   ' or string.format('%02X ', buf:byte(i)))
         if i %  8 == 0 then s=s..' ' end
         if i % 16 == 0 then s=s..(buf:sub(i-16+1, i):gsub('%c','.').. '\n') end
     end
@@ -269,9 +270,9 @@ function shexasciidump(buf)
     return s
 end
 
-function hexassciidump(str)
+function hexassciidump(str, max_len)
 
-    print(shexasciidump(str), "\n")
+    print(shexasciidump(str, max_len), "\n")
 end
 
 function hashset(t)
