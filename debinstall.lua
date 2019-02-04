@@ -34,7 +34,7 @@ require "packages"
 function Debian:Init()
 
 	-- get release name
-	local releaseLUT = {wheezy = "wheezy", jessie = "jessie", stretch = "stretch"}
+	local releaseLUT = {wheezy = "wheezy", jessie = "jessie", stretch = "stretch", buster = "stretch"}
 	
 	local codename = pshell.lsb_release("-a", "2>&1 | egrep Codename")
 	assertt(codename, "string")

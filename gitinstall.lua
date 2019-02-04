@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+xx#!/usr/bin/env lua
 
 --[[
 	apt-get install dialog git subversion

@@ -27,12 +27,12 @@ distro_packages =
 
 common_packages =
 {	{ icons = {true, "tango-icon-theme", "hicolor-icon-theme", "xfwm4-themes"}},
-	{ fonts = {true, "ttf-dejavu", "fonts-freefont-ttf", "ttf-liberation"}},				-- 2nd font is for videolan?
+	{ fonts = {true, "ttf-dejavu", "fonts-freefont-ttf", "ttf-liberation", "msttcorefonts"}},				-- 2nd font is for videolan?
 	{ ["crap fonts"] = {false, "gsfonts"}},
 	{ ["X11 fonts"] = {false, "xfonts-100dpi", "xfonts-75dpi", "xfonts-utils", "xfonts-encodings"}},
 	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin", "xfce4-mixer", "xfce4-power-manager"}},
 	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", "most", "ufw", false, "galternatives", "debfoster", "deborphan", "apt-file", "debtree", "ntp"}},
-	{ utils = {true, "geany", "geany-plugin-lua", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "usbutils", "xfce4-screenshooter", "lshw-gtk", false, "rsync", "qalculate-gtk"}},
+	{ utils = {true, "geany", "geany-plugin-lua", "geany-plugin-markdown", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "usbutils", "xfce4-screenshooter", "lshw-gtk", false, "rsync", "qalculate-gtk"}},
 	{ audio = {true, "alsa-utils", "alsa-base", "xfce4-pulseaudio-plugin"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
@@ -78,7 +78,7 @@ qemu_packages =
 }
 
 mount_packages =
-{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", "gdisk", false, "gsmartcontrol", "cryptsetup-bin", "cryptmount", "jfsutils", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool"}},
+{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", "exfat-fuse", "gdisk", false, "gsmartcontrol", "cryptsetup-bin", "cryptmount", "jfsutils", "kpartx", "gpart", "parted", "attr", "mtools", "btrfs-tools", "blktool"}},
 	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
 	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", "libusbmuxd-tools", false, "libplist-utils", "gtkpod"}},
 }
