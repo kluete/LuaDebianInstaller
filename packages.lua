@@ -102,7 +102,7 @@ multimedia_packages =
 }
 
 tools_packages =
-{	{ core = {true, "wget", "lftp", "mtr", "ethtool", "dmidecode", "gdmap", "apt-file", "usbview", "htop", false, "dcfldd"}},
+{	{ core = {true, "wget", "lftp", "mtr", "ethtool", "dmidecode", "gdmap", "apt-file", "usbview", "htop", false, "dcfldd", "hwloc"}},
 	{ online = {"curl", "socat", "geoip-bin", "nmap", "tftp", "tcpwatch-httpproxy", false, "geoip-bin", "winbind"}},
 	{ serial = {"minicom", "lrzsz"}},
 	{ sensor = {true, "lm-sensors", "psensor", "xfce4-sensors-plugin"}},
