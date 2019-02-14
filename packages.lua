@@ -70,6 +70,7 @@ programming_packages =
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
 	{ ["gcc56"] = {"g++-5", "g++-6"}},
 	{ ["inhance"] = {false, "imagemagick", "gdal-bin"}},
+	{ ["web"] = {false, "jq"}},
 	
 }
 
