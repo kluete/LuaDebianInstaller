@@ -71,7 +71,7 @@ programming_packages =
 	{ ["gcc56"] = {"g++-5", "g++-6"}},
 	{ ["inhance"] = {false, "imagemagick", "gdal-bin"}},
 	{ ["web"] = {false, "jq"}},
-	
+	{ ["python"] = {false, "django-testproject", "python-django", "python-django-common", "python-tz", "libjs-jquery", "python-sqlparse"}},
 }
 
 qemu_packages =
