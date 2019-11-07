@@ -92,7 +92,7 @@ printing_packages =
 multimedia_packages =
 {
 	{ web = {"iceweasel"}},
-	{ video = {"vlc", "gtk-recordmydesktop", "youtube-dl", "cheese", download = "http://download.videolan.org/pub/libdvdcss/1.2.10/deb/libdvdcss2_1.2.9-1_i386.deb"}},		-- source in 1.2.13
+	{ video = {"vlc", "gtk-recordmydesktop", "youtube-dl", "cheese", download = "http://download.videolan.org/pub/libdvdcss/1.2.10/deb/libdvdcss2_1.2.9-1_i386.deb", "avidemux"}},		-- source in 1.2.13
 	{ transcoding = {"oggconvert", "transmageddon", "libav-tools", "vpx-tools", "libavcodec-extra-53"}},
 	{ BitTorrent = {"qbittorrent"}},
 	{ DVB = {"dvb-apps", false, "me-tv", "w-scan"}},
