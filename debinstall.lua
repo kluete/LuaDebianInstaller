@@ -34,11 +34,12 @@ require "packages"
 function Debian:Init()
 
 	-- get release name
-	local releaseLUT = {wheezy = "wheezy", jessie = "jessie", stretch = "stretch", buster = "stretch"}
+	local releaseLUT = {wheezy = "wheezy", jessie = "jessie", stretch = "stretch", buster = "stretch", bullseye = "stretch"}
 	
 	local codename = pshell.lsb_release("-a", "2>&1 | egrep Codename")
 	assertt(codename, "string")
 	self.Release = codename:match('^Codename:%s+(%a+)$')
+	printf("release is %S", self.Release)
 	assertt(self.Release, "string")
 	self.Release = releaseLUT[self.Release]
 	assertf(self.Release, "unknown Debian release!")
