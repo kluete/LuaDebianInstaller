@@ -33,7 +33,7 @@ common_packages =
 	{ ["Xfce plugins"] = {true, "xfce4-places-plugin", "xfce4-quicklauncher-plugin", "xfce4-cpugraph-plugin", "xfce4-netload-plugin", "xfce4-taskmanager", "xfce4-notes-plugin", "xfce4-diskperf-plugin", "xfce4-mount-plugin", "xfce4-notifyd", "libnotify-bin", false, "xfce4-xkb-plugin", "xfce4-cpufreq-plugin", "xfce4-mixer", "xfce4-power-manager"}},
 	{ admin = {true, "sysv-rc-conf", "strace", "libpaper1", "most", "ufw", false, "galternatives", "debfoster", "deborphan", "apt-file", "debtree", "ntp"}},
 	{ utils = {true, "geany", "geany-plugin-lua", "geany-plugin-markdown", "galculator", "mirage", "x11-xserver-utils", "xdiskusage", "ncdu", "mc", "usbutils", "xfce4-screenshooter", "lshw-gtk", false, "rsync", "qalculate-gtk"}},
-	{ audio = {true, "alsa-utils", "alsa-base", "xfce4-pulseaudio-plugin"}},
+	{ audio = {true, "alsa-utils", "alsa-base", "xfce4-pulseaudio-plugin", "audacity"}},
 	{ laptop = {false, "firmware-linux-free", "cpufrequtils", "i8kutils", "i2c-tools", "laptop-mode-tools", "hddtemp", "lm-sensors", "xfce4-sensors-plugin", 
 	  "xfce4-battery-plugin" }},
 	{ wifi = {false, "wicd-gtk", "rfkill", "wicd", false, "firmware-linux-nonfree", "firmware-iwlwifi", "firmware-brcm80211", "firmware-realtek"}},	-- firmware for xps13 wifi (non-free)
