@@ -79,7 +79,7 @@ qemu_packages =
 }
 
 mount_packages =
-{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", "exfat-fuse", "gdisk", "meld", false, "gsmartcontrol", "cryptsetup-bin", "cryptmount", "jfsutils", "kpartx", "gpart", "parted", "attr", "mtools", "blktool", "btrfs-tools", "duperemove", "btrfs-heatmap", "fdupes"}},
+{	{ gparted = {true, "sshfs", "bindfs", "gparted", "hdparm", "ntfs-3g", "cryptsetup", "dosfstools", "exfat-utils", "exfat-fuse", "gdisk", "meld", "dcfldd", false, "gsmartcontrol", "cryptsetup-bin", "cryptmount", "jfsutils", "kpartx", "gpart", "parted", "attr", "mtools", "blktool", "btrfs-tools", "duperemove", "btrfs-heatmap", "fdupes"}},
 	{ ["CD burning"] = {true, "xfburn", false, "cdparanoia"}},
 	{ iPhone = {"libimobiledevice-utils", "gvfs-backends", "gvfs-bin", "gvfs-fuse", "usbmuxd", "libusbmuxd-tools", false, "libplist-utils", "gtkpod"}},
 	{ docker = {true, "docker-ce", "docker-ce-cli", "docker-compose", false, "cockpit-docker", "python3-docker"}},
