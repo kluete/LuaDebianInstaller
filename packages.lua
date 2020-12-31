@@ -72,6 +72,7 @@ programming_packages =
 	{ ["inhance"] = {false, "imagemagick", "gdal-bin"}},
 	{ ["web"] = {false, "jq"}},
 	{ ["python"] = {false, "django-testproject", "python-django", "python-django-common", "python-tz", "libjs-jquery", "python-sqlparse"}},
+	{ ["node.js"] = {false, "nodejs", "npm"}}
 }
 
 qemu_packages =
