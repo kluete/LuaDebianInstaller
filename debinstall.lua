@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 
 --[[
-	apt-get install lua5.1 dialog
+	apt-get install lua5.1 dialog lsb-release
 	./debinstall.lua
 	
 	TO DO:
