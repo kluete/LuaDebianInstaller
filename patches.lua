@@ -236,6 +236,16 @@ set softwrap
 	},
 },
 
+{ title = "silent SSH login",
+	{	op = "exec",
+		path = "$LSK",
+		args =
+		{	"touch .hushlogin",
+		},
+	},
+},
+
+
 { title = "link Documents",
 	{	op = "exec",
 		path = "$LSK/.local/share/notes",
