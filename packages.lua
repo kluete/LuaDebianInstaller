@@ -23,7 +23,7 @@ distro_packages =
 	{ auth = {true, "gvfs", "gksu", "xdg-utils", "gvfs-bin", "libpam-ck-connector", "policykit-1", "gvfs-daemons", "thunar-volman", "slim"}},
 	{ ["UI libs"] = {true, "librsvg2-common", "gtk2-engines-xfce", "gtk2-engines-pixbuf", "libgtk2.0-bin", "libxfce4util-bin"}},
 	{ compression = {true, "binutils", "sysv-rc-conf", "thunar-archive-plugin", "xarchiver", "bzip2", "zip", "unzip", "p7zip-full", "unar", "lz4"}},
-	{ "search" = {true, "catfish", false, "python3", "python3-distutils-extra", "gir1.2-gdkpixbuf-2.0", "gir1.2-glib-2.0", "gir1.2-gtk-3.0", "gir1.2-pango-1.0", "python3-gi-cairo", "gir1.2-xfconf-0", "xfconf", "python3-pexpect", "locate"}}
+	{ ["search"] = {true, "catfish", false, "python3", "python3-distutils-extra", "gir1.2-gdkpixbuf-2.0", "gir1.2-glib-2.0", "gir1.2-gtk-3.0", "gir1.2-pango-1.0", "python3-gi-cairo", "gir1.2-xfconf-0", "xfconf", "python3-pexpect", "locate"}}
 }
 
 common_packages =
