@@ -71,7 +71,7 @@ programming_packages =
 	{ ["Vulkan"] = {"libvulkan-dev", "vulkan-utils"}},
 	{ ["gcc56"] = {"g++-5", "g++-6"}},
 	{ ["inhance"] = {false, "imagemagick", "gdal-bin"}},
-	{ ["web"] = {false, "jq"}},
+	{ ["web"] = {false, "jq", "s3cmd"}},
 	{ ["python"] = {false, "django-testproject", "python-django", "python-django-common", "python-tz", "libjs-jquery", "python-sqlparse"}},
 	{ ["node.js"] = {false, "nodejs", "npm"}}
 }
