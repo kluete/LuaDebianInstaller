@@ -42,7 +42,7 @@ common_packages =
 }
 
 office_packages =
-{	{ claws = {"claws-mail", "claws-mail-i18n", "claws-mail-attach-remover", "claws-mail-multi-notifier"}},
+{	{ claws = {"claws-mail-i18n", "claws-mail-attach-remover", "claws-mail-multi-notifier", "claws-mail-fancy-plugin"}},
 	{ aspell = {"aspell", "aspell-en", "aspell-fr", "aspell-es", "aspell-de", "aspell-pt-br"}},
 	{ office = {"abook", "abiword", "gnumeric", "zim", false, "libreoffice", "hunspell-en-us"}},
 	{ graphics = {"gimp", "inkscape", "dia"}},
